@@ -27,10 +27,10 @@ def process_first_repo(n=1):
             config = {
                 "mode": "dir",
                 "repo_url": repo_url,
-                "analyzer_args": f"-p {language} --vulnerabilities-threat-actor none --vulnerabilities-iterations 8 --exclude '**/.github/**' --files-context-window 500000 --files-chunk-size 450000",
+                "analyzer_args": f"-p {language} --vulnerabilities-threat-actor none --vulnerabilities-iterations 8 --exclude '**/.github/**' --files-context-window 600000 --files-chunk-size 500000",
                 "agent_provider": "google",
                 "agent_model": "gemini-2.0-flash-thinking-exp",
-                "agent_temperature": 0.7,
+                "agent_temperature": 1,
                 "agent_prompt_types": ["vulnerabilities-workflow-1"],
             }
 
