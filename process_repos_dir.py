@@ -27,7 +27,7 @@ def process_first_repo(n=1):
             config = {
                 "mode": "dir",
                 "repo_url": repo_url,
-                "analyzer_args": f"-p {language} --vulnerabilities-iterations 8 --exclude '**/.github/**'",
+                "analyzer_args": f"-p {language} --vulnerabilities-iterations 1 --exclude '**/.github/**'",
                 "agent_provider": "google",
                 "agent_model": "gemini-2.0-flash-thinking-exp",
                 "agent_temperature": 0.7,
