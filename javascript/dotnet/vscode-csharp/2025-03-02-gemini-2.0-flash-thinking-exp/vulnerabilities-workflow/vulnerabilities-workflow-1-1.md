@@ -1,9 +1,15 @@
-## Vulnerability Report: C# Extension for Visual Studio Code
+Please provide the list of vulnerabilities you would like me to update. I need the list to be able to filter it according to your instructions and return the updated list in markdown format.
 
-### Vulnerability List
+Once you provide the list, I will process each vulnerability and:
 
-**No high or critical vulnerabilities found.**
+*   **Evaluate for exclusion criteria:**
+    *   Developer-induced insecure code patterns from project files.
+    *   Missing documentation as the *only* issue.
+    *   Denial of service vulnerability.
+*   **Evaluate for inclusion criteria:**
+    *   Valid and not already fully mitigated.
+    *   Vulnerability rank is 'high' or 'critical'.
 
-Based on the provided project files, a thorough source code analysis did not reveal any new high or critical ranked vulnerabilities introduced by this project that are exploitable by an external attacker. The project primarily consists of configuration files, build scripts, documentation, testing code, and glue code to integrate language services into VS Code, rather than application code directly handling external inputs.
+Only the vulnerabilities that meet the inclusion criteria and do not meet the exclusion criteria will be included in the final markdown formatted list.
 
-**Note:** This analysis is based on the provided PROJECT FILES and might not be exhaustive. Further analysis with more project files might reveal additional vulnerabilities.
+Looking forward to receiving your vulnerability list!
