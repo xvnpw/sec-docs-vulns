@@ -1,4 +1,3 @@
-python aws/aws-jupyter-proxy
 python aws/aws-lambda-builders
 python aws/aws-lambda-python-runtime-interface-client
 python aws/aws-msk-iam-sasl-signer-python
