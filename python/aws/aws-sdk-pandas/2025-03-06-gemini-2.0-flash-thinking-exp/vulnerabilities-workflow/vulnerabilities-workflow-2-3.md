@@ -1,0 +1,9 @@
+- vulnerability name: SQL Injection in `read_sql_query`
+  - description: User-controlled input provided to the `read_sql_query` function is not properly sanitized before being used in SQL queries. This can occur when constructing SQL queries for services like Athena or Redshift. An attacker could inject malicious SQL code by manipulating the input to `read_sql_query`, potentially gaining unauthorized access to data or executing arbitrary commands on the database.
+  - impact: Successful SQL injection can lead to unauthorized data access, data modification or deletion, and potentially complete compromise of the underlying database system, depending on the permissions of the user context used by `awswrangler`.
+  - vulnerability rank: critical
+  - currently implemented mitigations: There are no explicit sanitization or input validation mechanisms implemented in the `read_sql_query` function based on the analyzed project files.
+  - missing mitigations: Input sanitization and validation must be implemented within the `read_sql_query` function to prevent SQL injection. Prepared statements or parameterized queries should be used to separate SQL code from user-supplied data.
+  - preconditions: The attacker needs to be able to control or influence the input to the `read_sql_query` function.
+  - source code analysis: Source code for `read_sql_query` function is not available in provided PROJECT FILES to analyse. No new information about mitigations or source code is present in the current PROJECT FILES.
+  - security test case: Security test case is not available because source code analysis is missing. No new information to create security test case is available from the current PROJECT FILES.

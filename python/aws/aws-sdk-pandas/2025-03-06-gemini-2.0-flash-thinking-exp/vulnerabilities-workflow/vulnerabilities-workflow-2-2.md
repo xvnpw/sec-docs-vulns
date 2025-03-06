@@ -1,0 +1,29 @@
+- Vulnerability Name: Potential SQL Injection in Athena/Redshift `read_sql_query`
+  - Description:
+    - An attacker could potentially inject malicious SQL code into queries executed by `awswrangler.athena.read_sql_query` or `wr.redshift.read_sql_query` if the query string is constructed using user-controlled input without proper sanitization.
+    - Step 1: An attacker identifies a part of the application where `awswrangler.athena.read_sql_query` or `wr.redshift.read_sql_query` is used and the SQL query is dynamically built using user-provided data.
+    - Step 2: The attacker crafts a malicious SQL payload and injects it as user input.
+    - Step 3: The application uses `awswrangler` to execute the SQL query against Athena or Redshift without proper sanitization of the user input.
+    - Step 4: The injected SQL code is executed by Athena or Redshift, potentially leading to unauthorized data access, data modification, or other malicious actions.
+  - Impact:
+    - Successful SQL injection can lead to unauthorized access to sensitive data stored in Athena or Redshift.
+    - Attackers might be able to modify or delete data, depending on the permissions of the AWS credentials used by `awswrangler`.
+    - In severe cases, attackers could potentially gain control over the database operations, leading to broader system compromise.
+  - Vulnerability Rank: High
+  - Currently Implemented Mitigations:
+    - Based on the provided files and current project files, there is no explicit code found that sanitizes SQL queries against SQL injection vulnerabilities. The `README.md` mentions usage of `wr.athena.read_sql_query` and `wr.redshift.read_sql_query` but does not highlight any security considerations or input sanitization. The ADRs discuss security in general terms (like optional dependencies to reduce attack surface, no IAM permission alterations), but none address SQL injection directly.  No new mitigations are identified in the current project files.
+  - Missing Mitigations:
+    - Input sanitization for SQL queries within `awswrangler.athena.read_sql_query` and `wr.redshift.read_sql_query` is missing.
+    - Implementation of parameterized queries should be considered to prevent SQL injection by design.
+    - Security documentation should be added to warn users about the risks of incorporating user-controlled input into SQL queries and recommend best practices for mitigation.
+  - Preconditions:
+    - The application must use `awswrangler.athena.read_sql_query` or `wr.redshift.read_sql_query`.
+    - User-controlled input must be incorporated into the SQL query string passed to these functions.
+  - Source Code Analysis:
+    - Based on the files provided, there is no source code available to analyze the implementation of `awswrangler.athena.read_sql_query` or `wr.redshift.read_sql_query`. The current PROJECT FILES do not include the source code for these functions. Therefore, the initial source code analysis remains unchanged, and further analysis of the source code in subsequent steps is required to confirm this vulnerability and pinpoint the exact location.
+  - Security Test Case:
+    - Step 1: Set up a test environment with Athena or Redshift and a publicly accessible instance of an application using `awswrangler`.
+    - Step 2: Identify an entry point in the application that utilizes `awswrangler.athena.read_sql_query` or `wr.redshift.read_sql_query` and incorporates user-provided input into the SQL query. For example, an input field that allows users to filter data using a custom SQL WHERE clause.
+    - Step 3: Craft a malicious SQL injection payload. For example, if the original query is `SELECT * FROM my_table WHERE column = 'userInput'`, the attacker could input `' OR 1=1 -- ` to modify the query to `SELECT * FROM my_table WHERE column = '' OR 1=1 -- '`.
+    - Step 4: Submit the crafted payload through the identified entry point.
+    - Step 5: Observe the application's behavior and database logs for any signs of successful SQL injection, such as unexpected data retrieval or database errors indicating malicious SQL execution. For example, in Athena, check the query execution history for the modified query and its results.
