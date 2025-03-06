@@ -1,4 +1,3 @@
-python amzn/faithful-data2text-cycle-training
 python amzn/fashion-attribute-disentanglement
 python amzn/image-to-recipe-transformers
 python amzn/monitoringcustommetricstypescript angular/dgeni
