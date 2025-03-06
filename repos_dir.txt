@@ -1,4 +1,3 @@
-python aws/aws-panorama-cli
 python aws/aws-parallelcluster-node
 python aws/aws-sam-build-images
 python aws/aws-sam-cli-app-templates
