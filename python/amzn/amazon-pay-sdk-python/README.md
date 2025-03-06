@@ -1,6 +1,6 @@
-# Amazon-Multi-Token-Completion Analysis
+# Amazon-Pay-Sdk-Python Analysis
 
-[GitHub Repository](https://github.com/amzn/amazon-multi-token-completion)
+[GitHub Repository](https://github.com/amzn/amazon-pay-sdk-python)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

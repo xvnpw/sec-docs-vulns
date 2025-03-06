@@ -1,6 +1,6 @@
-# Amazon-Multi-Token-Completion Analysis
+# Armbench Analysis
 
-[GitHub Repository](https://github.com/amzn/amazon-multi-token-completion)
+[GitHub Repository](https://github.com/amzn/armbench)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

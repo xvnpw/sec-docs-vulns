@@ -1,6 +1,6 @@
-# Amazon-Multi-Token-Completion Analysis
+# Amzn-Ec2-Ena-Utilities Analysis
 
-[GitHub Repository](https://github.com/amzn/amazon-multi-token-completion)
+[GitHub Repository](https://github.com/amzn/amzn-ec2-ena-utilities)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

@@ -1,6 +1,6 @@
-# Amazon-Multi-Token-Completion Analysis
+# Augment-The-Pairs-Wacv2024 Analysis
 
-[GitHub Repository](https://github.com/amzn/amazon-multi-token-completion)
+[GitHub Repository](https://github.com/amzn/augment-the-pairs-wacv2024)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

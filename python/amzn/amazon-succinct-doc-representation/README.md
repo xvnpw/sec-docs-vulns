@@ -1,6 +1,6 @@
-# Amazon-Multi-Token-Completion Analysis
+# Amazon-Succinct-Doc-Representation Analysis
 
-[GitHub Repository](https://github.com/amzn/amazon-multi-token-completion)
+[GitHub Repository](https://github.com/amzn/amazon-succinct-doc-representation)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|
