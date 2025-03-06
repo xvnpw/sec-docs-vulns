@@ -1,4 +1,3 @@
-python aws/aws-iot-device-sdk-python
 python aws/aws-iot-device-sdk-python-v2
 python aws/aws-jupyter-proxy
 python aws/aws-lambda-builders
