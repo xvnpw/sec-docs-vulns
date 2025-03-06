@@ -1,4 +1,3 @@
-python amzn/sto-transformer
 python amzn/supply-chain-simulation-environment
 python amzn/trans-encoder
 python amzn/user-satisfaction-modeling
