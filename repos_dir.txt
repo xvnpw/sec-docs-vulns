@@ -1,4 +1,3 @@
-python aws/aws-sam-build-images
 python aws/aws-sam-cli-app-templates
 python aws/aws-sdk-pandas
 python aws/aws-secretsmanager-caching-python
