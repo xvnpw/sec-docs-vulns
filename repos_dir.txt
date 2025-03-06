@@ -1,4 +1,3 @@
-python amzn/orthogonal-additive-gaussian-processes
 python amzn/pecos
 python amzn/pretraining-or-self-training
 python amzn/python-jose_aws-kms-extension
