@@ -27,7 +27,7 @@ def process_first_repo(n=1):
             config = {
                 "mode": "dir",
                 "repo_url": repo_url,
-                "analyzer_args": f"-p {language} --vulnerabilities-iterations 8 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/{repo_url} --recursion-limit 100",
+                "analyzer_args": f"-p {language} --vulnerabilities-iterations 2 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/{repo_url} --recursion-limit 100",
                 "agent_provider": "google",
                 "agent_model": "gemini-2.0-flash-thinking-exp",
                 "agent_temperature": 0.7,
