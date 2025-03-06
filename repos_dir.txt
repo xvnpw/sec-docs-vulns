@@ -1,4 +1,3 @@
-python aws/amazon-codeguru-jupyterlab-extension
 python aws/amazon-codeguru-profiler-python-agent
 python aws/amazon-elastic-inference-tools
 python aws/amazon-mwaa-docker-images
