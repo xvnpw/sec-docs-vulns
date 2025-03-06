@@ -1,4 +1,3 @@
-python amzn/augment-the-pairs-wacv2024
 python amzn/autotrail
 python amzn/basis-point-sets
 python amzn/bayespe
