@@ -1,4 +1,3 @@
-python angular/clang-format
 python argoproj/argoproj
 python aws/amazon-codeguru-jupyterlab-extension
 python aws/amazon-codeguru-profiler-python-agent
