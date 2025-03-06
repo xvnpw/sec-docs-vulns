@@ -1,4 +1,3 @@
-python aws/aws-cli
 python aws/aws-dynamodb-encryption-python
 python aws/aws-ec2-instance-connect-cli
 python aws/aws-eks-best-practices
