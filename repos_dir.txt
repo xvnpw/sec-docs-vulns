@@ -1,4 +1,3 @@
-python aws/amazon-s3-plugin-for-pytorch
 python aws/amazon-sagemaker-clarify
 python aws/aws-advanced-python-wrapper
 python aws/aws-cli
