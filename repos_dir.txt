@@ -1,4 +1,3 @@
-python aws/aws-sigv4-auth-cassandra-python-driver-plugin
 python aws/aws-step-functions-data-science-sdk-python
 python aws/aws-xray-sdk-python
 python aws/base64io-python
