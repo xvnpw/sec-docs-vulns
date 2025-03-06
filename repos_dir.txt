@@ -1,4 +1,3 @@
-python aws/aws-xray-sdk-python
 python aws/base64io-python
 python aws/boto3-s3-access-grants-plugin
 python aws/chalice
