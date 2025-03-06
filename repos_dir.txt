@@ -1,4 +1,3 @@
-python aws/deep-learning-containers
 python aws/efs-utils
 python aws/elb-doctor
 python aws/fmeval
