@@ -18,7 +18,7 @@ DOC_TYPES: Dict[str, str] = {
     "vulnerabilities-workflow-1.md": "Vulnerabilities Workflow",
 }
 
-INTRODUCTION = """# sec-docs-vulns
+INTRODUCTION = """# 🐛 sec-docs-vulns 
 
 ### Current Projects
 """
