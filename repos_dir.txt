@@ -1,4 +1,3 @@
-python amzn/chalet-charging-location-for-electric-trucks
 python amzn/convolutional-handwriting-gan
 python amzn/cosearcher
 python amzn/credence-to-causal-estimation
