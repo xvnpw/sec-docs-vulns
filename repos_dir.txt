@@ -1,4 +1,3 @@
-python aws/aws-elastic-beanstalk-cli
 python aws/aws-elastic-beanstalk-cli-setup
 python aws/aws-emr-containers-best-practices
 python aws/aws-encryption-sdk-cli
