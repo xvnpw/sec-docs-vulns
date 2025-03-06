@@ -1,4 +1,3 @@
-python amzn/trans-encoder
 python amzn/user-satisfaction-modeling
 python amzn/ws-vae
 python amzn/xfer
