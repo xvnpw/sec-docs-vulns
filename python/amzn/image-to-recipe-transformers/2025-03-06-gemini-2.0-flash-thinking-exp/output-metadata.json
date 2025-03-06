@@ -1,0 +1,14 @@
+{
+  "repo_url": "amzn/image-to-recipe-transformers",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/amzn/image-to-recipe-transformers --recursion-limit 100",
+  "start_datetime": "2025-03-06T20:09:05Z",
+  "end_datetime": "2025-03-06T20:12:05Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "113553",
+  "mode": "dir"
+}
