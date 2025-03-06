@@ -1,0 +1,29 @@
+## Vulnerabilities list:
+
+- Vulnerability Name: **Gatekeeper Policies - Namespace Exclusion Vulnerability**
+- Description:
+    - A malicious actor could submit a pull request suggesting to exclude the `kube-system` namespace from Gatekeeper policies as a best practice.
+    - If this pull request is merged, users who apply these policies to their clusters will inadvertently disable security controls for the `kube-system` namespace.
+    - Attackers could then deploy malicious workloads or modify existing components within the `kube-system` namespace, potentially gaining cluster-admin level privileges or compromising critical system components.
+- Impact:
+    - High. Compromise of the `kube-system` namespace can lead to full cluster compromise, including control plane access and data exfiltration.
+- Vulnerability Rank: Critical
+- Currently implemented mitigations:
+    - None. The documentation explicitly suggests excluding `kube-system` namespace.
+- Missing mitigations:
+    - The documentation should explicitly warn against excluding critical namespaces like `kube-system` from security policies.
+    - The documentation should recommend a more secure approach, such as carefully auditing and whitelisting exceptions for specific add-ons within `kube-system` instead of a blanket exclusion.
+- Preconditions:
+    - An attacker successfully submits and merges a pull request that promotes excluding `kube-system` namespace from Gatekeeper policies.
+    - Users follow the documentation and deploy the example Gatekeeper policies without reviewing or modifying them.
+- Source code analysis:
+    - File: `/code/policies/alternative-gatekeeper/README.md`
+    - The `README.md` file under `/code/policies/alternative-gatekeeper/` suggests: "**NOTE:** We excluded the `kube-system` namespace in all of the constraints as many infrastructure add-ons have legitimate need for, and thus require exceptions these limitations of, elevated privileges. If you deploy those things to the kube-system namespace they will not be blocked by these example policies."
+    - This note, while intending to be helpful for avoiding conflicts with legitimate add-ons, can be misinterpreted as a best practice to generally exclude `kube-system` without fully understanding the security implications.
+    - An attacker can leverage this suggestion to create a pull request that emphasizes and reinforces this exclusion as a best practice, making it more likely to be accepted and implemented by users.
+- Security test case:
+    - Step 1: Create a pull request that modifies `/code/policies/alternative-gatekeeper/README.md` to strongly recommend excluding the `kube-system` namespace from Gatekeeper policies for "stability and compatibility".
+    - Step 2: As a reviewer, merge the pull request without fully considering the security implications.
+    - Step 3: As a user, follow the updated documentation and deploy the Gatekeeper policies to an EKS cluster, without modifying the namespace exclusions.
+    - Step 4: Deploy a malicious pod in the `kube-system` namespace, for example, a privileged pod or a pod that violates other security best practices that the Gatekeeper policies are supposed to enforce.
+    - Step 5: Observe that the malicious pod is successfully deployed in `kube-system` namespace, demonstrating the bypassed security controls.
