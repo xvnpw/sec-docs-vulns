@@ -1,4 +1,3 @@
-python amzn/python-jose_aws-kms-extension
 python amzn/rete-thewebconf-2022
 python amzn/rheoceros
 python amzn/sparse-vqvae
