@@ -1,0 +1,41 @@
+## Vulnerability List for AWS Advanced Python Driver
+
+- Vulnerability Name: **IAM Authentication Plugin Misconfiguration leading to Unauthorized Database Access**
+- Description:
+    - An attacker can gain unauthorized access to the database by exploiting misconfigurations in the application code that uses the IAM Authentication Plugin.
+    - Step 1: An application using the AWS Advanced Python Driver with IAM Authentication Plugin is configured with an overly permissive IAM role or policy. For example, the IAM role used by the application might have broader RDS data API access than necessary, or the IAM policy attached to the database user might be too permissive.
+    - Step 2: An attacker gains control or access to the application's configuration or execution environment (e.g., through code injection, compromised server, insider threat).
+    - Step 3: The attacker leverages the application's misconfigured IAM role or policy to execute database operations beyond the intended scope, potentially accessing sensitive data, modifying data, or performing administrative actions without proper authorization.
+- Impact:
+    - Critical. Unauthorized database access can lead to severe data breaches, data manipulation, and potential compromise of the entire database system.
+- Vulnerability Rank: Critical
+- Currently Implemented Mitigations:
+    - The AWS Advanced Python Driver itself does not implement mitigations for IAM policy or role misconfigurations, as this is outside the scope of the driver and within the responsibility of the application developer and AWS IAM administrator.
+- Missing Mitigations:
+    - **Least Privilege IAM Policies Documentation:**  The project documentation should include a strong warning and best practices guide on implementing least privilege IAM policies and roles for database access when using the IAM Authentication Plugin. This documentation should emphasize:
+        - Clearly defining the minimum necessary database permissions required for the application to function.
+        - Scoping IAM policies to the specific Aurora or RDS resources and actions required.
+        - Regularly reviewing and auditing IAM policies to ensure they remain least privilege.
+        - Emphasizing the risk of using overly broad IAM policies (e.g., `rds-data:*`) and recommending granular permissions.
+- Preconditions:
+    - The target application must be using the AWS Advanced Python Driver with the IAM Authentication Plugin enabled.
+    - The application's IAM role or associated IAM policies must be misconfigured to grant excessive database permissions.
+    - The attacker must gain some level of access to the application's environment or configuration to leverage the misconfiguration.
+- Source Code Analysis:
+    - The `aws_advanced_python_wrapper/iam_plugin.py` file implements the IAM Authentication Plugin.
+    - The plugin relies on AWS SDK (boto3) to generate authentication tokens based on the provided IAM credentials.
+    - The source code itself does not introduce the IAM misconfiguration vulnerability. The vulnerability arises from how the application *configures* and *deploys* the IAM roles and policies used by the driver.
+    - The driver correctly uses the provided IAM credentials to authenticate, but it cannot enforce least privilege policies.
+    - The risk is not in the driver's code, but in the *user's application IAM configuration*.
+- Security Test Case:
+    - Step 1: Set up an Aurora PostgreSQL database instance with IAM authentication enabled.
+    - Step 2: Create two IAM roles:
+        - `PermissiveRole`: This role has an IAM policy that grants broad `rds-data:*` permissions on the Aurora cluster.
+        - `LeastPrivilegeRole`: This role has an IAM policy that grants only minimal necessary `rds-data:ExecuteStatement` permission on a specific database and table.
+    - Step 3: Create two Python scripts using the AWS Advanced Python Driver with IAM Authentication Plugin:
+        - `PermissiveApp.py`: Configured to use `PermissiveRole` for database access.
+        - `LeastPrivilegeApp.py`: Configured to use `LeastPrivilegeRole` for database access.
+    - Step 4: As an attacker, gain access to the execution environment of `PermissiveApp.py`.
+    - Step 5: Modify or inject code into `PermissiveApp.py` to execute a SQL query that should be unauthorized under a least privilege setup (e.g., `CREATE USER attacker_user`).
+    - Step 6: Run the modified `PermissiveApp.py`. Verify that the unauthorized query executes successfully, demonstrating unauthorized access due to the misconfigured `PermissiveRole`.
+    - Step 7: Run `LeastPrivilegeApp.py` with the same modified code. Verify that the unauthorized query fails, demonstrating that `LeastPrivilegeRole` prevents unauthorized access.
