@@ -1,0 +1,14 @@
+{
+  "repo_url": "aws/aws-xray-sdk-python",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/aws/aws-xray-sdk-python --recursion-limit 100",
+  "start_datetime": "2025-03-06T23:27:08Z",
+  "end_datetime": "2025-03-06T23:30:14Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "581532",
+  "mode": "dir"
+}
