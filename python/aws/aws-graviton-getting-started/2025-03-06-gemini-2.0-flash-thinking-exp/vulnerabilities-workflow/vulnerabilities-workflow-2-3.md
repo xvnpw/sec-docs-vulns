@@ -1,0 +1,23 @@
+- vulnerability name: Outdated Software Vulnerabilities during Migration
+- description: Users following the AWS Graviton Technical Guide for web application migration might inadvertently install or fail to update web server software or language runtimes (e.g., PHP, Node.js), potentially introducing known security vulnerabilities present in older versions. The guide recommends using recent software versions for performance but lacks explicit warnings about security risks associated with outdated software. An attacker could exploit these known vulnerabilities if users deploy applications with outdated and vulnerable software stacks after following the general migration guidance.
+- impact: Successful exploitation of vulnerabilities in outdated software can lead to various impacts, including unauthorized access, data breaches, website defacement, and other security compromises within the migrated web application.
+- vulnerability rank: high
+- currently implemented mitigations:
+    - The "Recent software updates relevant to Graviton" section in `README.md` recommends using later versions of software, which indirectly suggests mitigation for both performance and security.
+- missing mitigations:
+    - Explicit security warnings and best practices regarding software versions are missing.
+    - The guide should prominently highlight the importance of using the latest *secure* versions of web server software and language runtimes.
+    - Recommend steps for users to verify and update their software stacks during migration, emphasizing security updates.
+- preconditions:
+    - A user must follow the AWS Graviton Technical Guide for web application migration.
+    - The user must choose to install or maintain outdated versions of web server software or language runtimes on their Graviton instances.
+- source code analysis:
+    - The vulnerability is not in the source code of the project itself but rather in the guidance provided in the documentation, specifically `README.md`.
+    - The "Recent software updates relevant to Graviton" section lists software packages and their updated versions for performance improvements.
+    - The documentation lacks explicit warnings about security risks associated with outdated software versions and doesn't strongly emphasize security considerations for software versions during migration.
+- security test case:
+    - step 1: Set up a Graviton instance (e.g., using AWS EC2 console) following the "Transitioning to Graviton" guide mentioned in `README.md`.
+    - step 2: Install an outdated vulnerable version of PHP (e.g., PHP 5.6, or any version known to have security vulnerabilities) on the Graviton instance. This simulates a user who might not prioritize software updates during migration, focusing solely on the functional migration steps.
+    - step 3: Deploy a sample PHP web application with known vulnerabilities exploitable in the installed outdated PHP version. For example, a simple PHP script with a file upload vulnerability known to be present in older PHP versions can be used.
+    - step 4: From an attacker's machine (separate from the Graviton instance), use a web browser or a tool like `curl` or `Metasploit` to attempt to exploit the known vulnerability in the deployed PHP application. Target the public IP or DNS of the Graviton instance.
+    - step 5: Verify successful exploitation of the vulnerability. For example, in the case of a file upload vulnerability, check if the attacker can successfully upload and execute arbitrary code on the Graviton instance, demonstrating the real-world risk of using outdated software versions and the potential security impact.
