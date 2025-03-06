@@ -1,4 +1,3 @@
-python aws/aws-gamekit-unreal
 python aws/aws-graviton-getting-started
 python aws/aws-greengrass-core-sdk-python
 python aws/aws-imds-packet-analyzer
