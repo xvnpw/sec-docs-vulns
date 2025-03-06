@@ -1,4 +1,3 @@
-python amzn/rheoceros
 python amzn/sparse-vqvae
 python amzn/ss-aga-kgc
 python amzn/sto-transformer
