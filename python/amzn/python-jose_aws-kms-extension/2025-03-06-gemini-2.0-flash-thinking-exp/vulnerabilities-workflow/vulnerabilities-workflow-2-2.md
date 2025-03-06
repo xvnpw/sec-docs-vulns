@@ -1,0 +1,43 @@
+### Vulnerability List:
+
+- Vulnerability Name: AWS KMS Key Policy Misconfiguration leading to Unauthorized Access and Signature Forgery
+- Description:
+    - The python-jose-aws-kms-extension library extends python-jose to use AWS KMS for cryptographic operations.
+    - This library relies on the AWS KMS key policies configured by the user for access control.
+    - If the KMS key policy associated with the key used for encryption, decryption, signing, or verification is misconfigured to be overly permissive, it can lead to unauthorized access.
+    - For example, if the KMS key policy grants broad `kms:Decrypt` permissions, an attacker with access to these permissions can decrypt data encrypted by the application.
+    - Similarly, overly permissive `kms:Sign` permissions would allow an attacker to forge signatures.
+    - This vulnerability arises not from a flaw in the library's code, but from insecure KMS key policy configurations in the deployment environment.
+- Impact:
+    - High
+    - Confidentiality breach: An attacker can decrypt sensitive data if the KMS key policy allows unauthorized `kms:Decrypt` actions.
+    - Integrity breach: An attacker can forge signatures if the KMS key policy allows unauthorized `kms:Sign` actions, potentially leading to data manipulation or unauthorized actions within the application.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+    - None. The library itself does not implement mitigations for KMS key policy misconfigurations.
+- Missing Mitigations:
+    - Documentation: Explicitly warn users about the security risks associated with overly permissive KMS key policies. Provide guidelines on how to configure KMS key policies securely when using this library. This should include emphasizing the principle of least privilege when granting KMS permissions.
+- Preconditions:
+    - The application using this library is deployed in an AWS environment.
+    - An AWS KMS key is used for cryptographic operations by the application.
+    - The KMS key policy associated with this key is misconfigured to be overly permissive, granting excessive permissions (e.g., `kms:Decrypt`, `kms:Sign`) to unintended principals (users, roles, or services).
+    - An attacker has obtained AWS credentials that allow them to assume a principal with these excessive KMS permissions. This could be due to various reasons like compromised IAM roles, EC2 instance profiles with overly permissive roles, or cross-account access misconfigurations.
+- Source Code Analysis:
+    - The library code itself does not contain a direct code-level vulnerability that leads to this issue.
+    - The vulnerability is due to the design choice of relying on AWS KMS for key management and cryptographic operations, which inherently depends on the security of the KMS key policies configured outside of the library's scope.
+    - The library's classes like `BotoKMSSymmetricEncryptionKey` and `BotoKMSAsymmetricSigningKey` interact directly with the KMS service using boto3. For example, `BotoKMSSymmetricEncryptionKey.generate_data_key` and `BotoKMSAsymmetricSigningKey.sign` methods directly call KMS API operations.
+    - If the KMS key used in these operations has a permissive policy, these library functions will successfully execute even when called by an attacker with sufficient AWS permissions, leading to the described vulnerability.
+- Security Test Case:
+    - Step 1: Create an AWS KMS key.
+    - Step 2: Configure the KMS key policy to be overly permissive. For example, for testing decryption vulnerability, add a statement to the key policy that allows `kms:Decrypt` action from a broad range of AWS accounts or IAM roles that represent the attacker. For signature forgery vulnerability, allow `kms:Sign`.
+    - Step 3: Deploy an application that uses the `python-jose-aws-kms-extension` library for encryption/decryption or signing/verification and configure it to use the KMS key created in Step 1. Make the application publicly accessible, or simulate a scenario where an attacker can interact with it.
+    - Step 4: As an attacker, obtain AWS credentials that correspond to a principal that is granted the overly permissive permissions in the KMS key policy (from Step 2).
+    - Step 5a (For Encryption/Decryption Vulnerability):
+        - Use the application to encrypt some data using the KMS key. Obtain the JWE token.
+        - Using the attacker's AWS credentials and AWS CLI or SDK, call the KMS `decrypt` operation, providing the encrypted ciphertext from the JWE token and specifying the KMS key ARN.
+        - Verify that the KMS `decrypt` operation is successful and the attacker can decrypt the data without authorization from the application level, due to the permissive KMS policy.
+    - Step 5b (For Signing/Verification Vulnerability):
+        - Using the attacker's AWS credentials and AWS CLI or SDK, call the KMS `sign` operation, providing a message to sign and specifying the KMS key ARN and signing algorithm.
+        - Obtain the signature from the KMS `sign` response.
+        - Use the application's verification functionality to verify a JWS token constructed with the forged signature (and original message/payload) and the KMS key identifier.
+        - Verify that the application incorrectly validates the forged signature as legitimate, due to the attacker's ability to use the KMS key for signing because of the permissive KMS policy.
