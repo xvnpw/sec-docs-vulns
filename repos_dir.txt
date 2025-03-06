@@ -1,2 +1,1 @@
-python amzn/amazon-ads-advertiser-audience-normalization-sdk-py
 python amzn/amazon-multi-token-completion

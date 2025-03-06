@@ -1,0 +1,11 @@
+{
+    "mode": "dir",
+    "repo_url": "amzn/amazon-ads-advertiser-audience-normalization-sdk-py",
+    "analyzer_args": "-p python --vulnerabilities-iterations 2 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/amzn/amazon-ads-advertiser-audience-normalization-sdk-py --recursion-limit 100",
+    "agent_provider": "google",
+    "agent_model": "gemini-2.0-flash-thinking-exp",
+    "agent_temperature": 0.7,
+    "agent_prompt_types": [
+        "vulnerabilities-workflow-2"
+    ]
+}
