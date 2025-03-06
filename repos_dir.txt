@@ -1,4 +1,3 @@
-python amzn/ws-vae
 python amzn/xfer
 python amzn/zero-shot-rlhr
 python angular/clang-format
