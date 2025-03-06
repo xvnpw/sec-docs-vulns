@@ -16,6 +16,7 @@ DOC_TYPES: Dict[str, str] = {
     "attack-tree.md": "Attack Tree",
     "mitigations.md": "Mitigation Strategies",
     "vulnerabilities-workflow-1.md": "Vulnerabilities Workflow",
+    "vulnerabilities-workflow-2.md": "Vulnerabilities Workflow 2",
 }
 
 INTRODUCTION = """# 🐛 sec-docs-vulns 
