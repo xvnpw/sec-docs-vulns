@@ -1,4 +1,3 @@
-python aws/fmeval
 python aws/git-remote-codecommit
 python aws/industry-toolkit
 python aws/iot-expresslink
