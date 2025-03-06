@@ -1,4 +1,3 @@
-python amzn/cosearcher
 python amzn/credence-to-causal-estimation
 python amzn/distance-assistant
 python amzn/extremely-efficient-query-encoder
