@@ -1,4 +1,3 @@
-python aws/efs-utils
 python aws/elb-doctor
 python aws/fmeval
 python aws/git-remote-codecommit
