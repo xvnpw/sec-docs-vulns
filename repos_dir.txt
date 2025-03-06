@@ -1,4 +1,3 @@
-python aws/aws-sam-cli-app-templates
 python aws/aws-sdk-pandas
 python aws/aws-secretsmanager-caching-python
 python aws/aws-sigv4-auth-cassandra-python-driver-plugin
