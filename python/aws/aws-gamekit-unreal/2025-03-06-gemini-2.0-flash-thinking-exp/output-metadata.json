@@ -1,0 +1,14 @@
+{
+  "repo_url": "aws/aws-gamekit-unreal",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/aws/aws-gamekit-unreal --recursion-limit 100",
+  "start_datetime": "2025-03-06T22:19:17Z",
+  "end_datetime": "2025-03-06T22:23:48Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "4161351",
+  "mode": "dir"
+}
