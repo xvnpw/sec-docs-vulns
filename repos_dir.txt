@@ -1,4 +1,3 @@
-python amzn/xfer
 python amzn/zero-shot-rlhr
 python angular/clang-format
 python argoproj/argoproj
