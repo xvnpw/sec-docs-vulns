@@ -1,4 +1,3 @@
-python aws/aws-encryption-sdk-cli
 python aws/aws-encryption-sdk-python
 python aws/aws-gamekit-unity
 python aws/aws-gamekit-unreal
