@@ -1,4 +1,3 @@
-python amzn/credence-to-causal-estimation
 python amzn/distance-assistant
 python amzn/extremely-efficient-query-encoder
 python amzn/faithful-data2text-cycle-training
