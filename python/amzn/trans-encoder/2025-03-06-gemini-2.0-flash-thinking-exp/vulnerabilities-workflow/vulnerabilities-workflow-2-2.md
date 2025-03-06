@@ -1,0 +1,40 @@
+- Vulnerability Name: Path Traversal in Custom Corpus Path
+- Description:
+    - A path traversal vulnerability exists in the `load_custom` function in `/code/src/data.py`.
+    - When training the model with a custom corpus, users can specify the corpus file path using the `--custom_corpus_path` argument in `mutual_distill_parallel.py` or `self_distill.py`.
+    - The `load_custom` function in `/code/src/data.py` directly uses the provided path in the `open()` function without any sanitization or validation.
+    - This allows an attacker to provide a malicious path, such as `../../../etc/passwd`, to read arbitrary files from the server's filesystem during the training process.
+- Impact:
+    - An attacker can read arbitrary files from the system where the training script is executed.
+    - This could lead to the disclosure of sensitive information, including configuration files, source code, or user data, depending on file system permissions.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+    - None. The application directly uses the user-provided path without any validation or sanitization.
+- Missing Mitigations:
+    - Path sanitization:
+        - Implement path sanitization to prevent path traversal attacks.
+        - Validate that the provided `custom_corpus_path` is within an expected directory.
+        - Use functions like `os.path.basename` and `os.path.join` to construct the file path safely.
+    - Input validation:
+        - Check if the provided path is valid and exists before attempting to open it.
+- Preconditions:
+    - The attacker needs to be able to execute the training scripts (`train_mutual_distill.sh` or `train_self_distill.sh`).
+    - The training script must be executed with the `--task custom` and `--custom_corpus_path` arguments.
+- Source Code Analysis:
+    - File: `/code/src/data.py`
+    - Function: `load_custom(fpath)`
+    - Step 1: The `load_custom` function is defined to load a custom sentence-pair corpus from the path `fpath`.
+    - Step 2: Line 148: `with open(fpath, "r") as f:`
+        - The code uses `open(fpath, "r")` to open the file specified by the `fpath` argument.
+        - There is no path sanitization or validation performed on `fpath` before opening the file.
+        - An attacker can control the `fpath` argument through the `--custom_corpus_path` command-line option in the training scripts (`train_self_distill.sh` and `train_mutual_distill.sh`).
+        - By providing a path like `../../../etc/passwd` as `custom_corpus_path`, the `open()` function will attempt to open `/etc/passwd`.
+    - Step 3: If the training script is executed with a malicious `custom_corpus_path`, the attacker can read arbitrary files on the system.
+- Security Test Case:
+    - Step 1: Setup - Access to training scripts and ability to modify command-line arguments.
+    - Step 2: Prepare Malicious Input - Modify `train_self_distill.sh` (or `train_mutual_distill.sh`) to include:
+        ```bash
+        --task custom --custom_corpus_path "../../../../../../../../../../../../../../../../../../../../../etc/passwd"
+        ```
+    - Step 3: Execute Script - Run the modified script: `bash train_self_distill.sh 0` (or `bash train_mutual_distill.sh 0,1`).
+    - Step 4: Observe Outcome - Check the script's output or logs for errors related to opening or reading `/etc/passwd`. While the script may fail to process `/etc/passwd` as a corpus, successful opening of the file (indicated by subsequent file format errors or time taken to attempt reading) confirms the path traversal vulnerability.
