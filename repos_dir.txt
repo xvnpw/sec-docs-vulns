@@ -1,4 +1,3 @@
-python amzn/monitoringcustommetrics
 python amzn/mrc-net-6d-pose
 python amzn/multiconer-baseline
 python amzn/orthogonal-additive-gaussian-processes
