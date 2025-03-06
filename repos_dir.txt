@@ -1,4 +1,3 @@
-python aws/aws-imds-packet-analyzer
 python aws/aws-iot-device-sdk-arduino-yun
 python aws/aws-iot-device-sdk-python
 python aws/aws-iot-device-sdk-python-v2
