@@ -1,4 +1,3 @@
-python amzn/autotrail
 python amzn/basis-point-sets
 python amzn/bayespe
 python amzn/chalet-charging-location-for-electric-trucks
