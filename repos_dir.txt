@@ -1,4 +1,3 @@
-python aws/aws-advanced-python-wrapper
 python aws/aws-cli
 python aws/aws-dynamodb-encryption-python
 python aws/aws-ec2-instance-connect-cli
