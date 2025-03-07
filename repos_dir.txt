@@ -1,4 +1,3 @@
-python azure/pyrit
 python azure/rai-vnext-preview
 python azure/stormspotter
 python azure/toothcomb
