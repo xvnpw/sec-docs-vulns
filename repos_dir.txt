@@ -1,4 +1,3 @@
-python facebook/usort
 python facebookincubator/bowler
 python facebookincubator/cinderx
 python facebookincubator/dcrpm
