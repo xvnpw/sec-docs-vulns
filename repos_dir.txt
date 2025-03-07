@@ -1,4 +1,3 @@
-python azure/updatemanagement
 python azure/video-analyzer
 python azure/walinuxagent
 python bazelbuild/bazel-bench
