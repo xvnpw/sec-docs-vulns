@@ -1,4 +1,3 @@
-python aws/sagemaker-training-toolkit
 python aws/sagemaker-xgboost-container
 python aws/selective-search-with-mutual-information-cotraining
 python aws/serverless-application-model
