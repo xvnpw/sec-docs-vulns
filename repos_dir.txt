@@ -1,4 +1,3 @@
-python facebookincubator/cinderx
 python facebookincubator/dcrpm
 python facebookincubator/fiosynth
 python facebookincubator/ft_utilsgo golang/glog
