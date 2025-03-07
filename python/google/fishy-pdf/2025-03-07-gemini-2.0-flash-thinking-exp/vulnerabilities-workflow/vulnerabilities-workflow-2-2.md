@@ -1,0 +1,25 @@
+- Vulnerability Name: Insufficient Content Security Policy due to 'unsafe-inline'
+- Description: The application employs Content Security Policy (CSP) to mitigate Cross-Site Scripting (XSS) vulnerabilities. However, the CSP configuration, potentially defined in the `_headers` file within the `third_party/pdfjs` directory, might include `'unsafe-inline'` in the `script-src` directive. This directive weakens the CSP by allowing the execution of inline JavaScript code. If an attacker can find a way to inject inline JavaScript into the page, for example, by exploiting a vulnerability in PDF.js rendering, the `'unsafe-inline'` directive will permit the execution of this malicious script, effectively bypassing the CSP's intended protection against XSS.
+- Impact: If an attacker successfully injects inline JavaScript, the presence of `'unsafe-inline'` in the CSP will allow the malicious script to execute. This leads to Cross-Site Scripting (XSS). An attacker could then steal sensitive user data (like cookies or session tokens), redirect the user to malicious websites, or perform actions on behalf of the user within the FishyPDF application.
+- Vulnerability Rank: Medium
+- Currently implemented mitigations: The application attempts to implement CSP by configuring and serving CSP headers using `pdfjs-server.py`, which reads the policy from a `_headers` file.
+- Missing mitigations: The `'unsafe-inline'` directive should be removed from the `script-src` directive in the CSP. A more secure CSP would typically restrict `script-src` to `'self'` or use nonces or hashes for inline scripts if absolutely necessary. Ideally, inline scripts should be avoided altogether in favor of external scripts, which are easier to manage and control with CSP.
+- Preconditions:
+    - The `_headers` file in the `third_party/pdfjs` directory exists and is used by the server to set CSP headers.
+    - The CSP configuration in the `_headers` file includes `'unsafe-inline'` in the `script-src` directive.
+    - There is an exploitable vulnerability in PDF.js or the FishyPDF customizations that allows an attacker to inject inline JavaScript into the rendered HTML page when processing a malicious PDF file.
+- Source code analysis:
+    1. The `pdfjs-server.py` script is responsible for serving the FishyPDF application.
+    2. The `get_csp()` function within `pdfjs-server.py` reads the CSP configuration from the `_headers` file located in the `third_party/pdfjs` directory.
+    3. The `CSPRequestHandler` class in `pdfjs-server.py` uses the `get_csp()` function to retrieve the CSP and sets the `Content-Security-Policy` header in the HTTP response.
+    4. If the `_headers` file contains a CSP definition that includes `script-src` with the `'unsafe-inline'` directive, the server will serve this CSP.
+    5. The presence of `'unsafe-inline'` in the `script-src` directive effectively allows the execution of any inline JavaScript code present in the HTML, regardless of origin.
+    6. If a vulnerability in PDF.js (or FishyPDF's modifications) allows for the injection of inline JavaScript, this CSP configuration will not prevent the execution of the injected malicious script.
+- Security test case:
+    1. **Inspect `_headers` file:** Examine the `_headers` file located in the `third_party/pdfjs` directory. Verify if the `Content-Security-Policy` header is defined and if the `script-src` directive includes `'unsafe-inline'`. If `'unsafe-inline'` is present, proceed with the test.
+    2. **Start the server:** Run the `pdfjs-server.py` script to start the FishyPDF application server.
+    3. **Prepare malicious PDF:** Create a malicious PDF file that exploits a known or hypothetical XSS vulnerability in PDF.js that results in the injection of inline JavaScript. For example, the PDF could be crafted to trigger JavaScript execution via a URI action or by manipulating PDF content in a way that PDF.js interprets as inline JavaScript when rendering. A simple payload could be `app.alert('XSS')` embedded as inline script.
+    4. **Access FishyPDF Viewer:** Open a web browser and navigate to the FishyPDF viewer, typically at `http://127.0.0.1:8123/web/viewer.html` if using the local server.
+    5. **Open malicious PDF:** Use the FishyPDF viewer to open the malicious PDF file created in step 3.
+    6. **Observe execution:** Observe if the JavaScript code from the malicious PDF is executed. For example, if the payload was `app.alert('XSS')`, check if an alert box with "XSS" is displayed in the browser.
+    7. **Verify CSP bypass:** If the JavaScript code executes successfully despite the presence of CSP headers, it confirms that the `'unsafe-inline'` directive in the CSP allows bypassing the intended security policy and leads to XSS. If the alert box is displayed, it indicates that the CSP with `'unsafe-inline'` is insufficient to prevent inline script based XSS attacks in FishyPDF.
