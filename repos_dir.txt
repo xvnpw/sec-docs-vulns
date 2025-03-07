@@ -1,4 +1,3 @@
-python dynatrace/obslab-syslog
 python dynatrace/oneagent-sdk-for-python
 python facebook/chisel
 python facebook/dotslash-publish-release
