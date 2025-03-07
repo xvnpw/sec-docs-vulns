@@ -1,4 +1,3 @@
-python aws/sagemaker-mlflow
 python aws/sagemaker-mxnet-inference-toolkit
 python aws/sagemaker-mxnet-training-toolkit
 python aws/sagemaker-pytorch-inference-toolkit
