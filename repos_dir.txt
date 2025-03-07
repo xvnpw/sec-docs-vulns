@@ -1,4 +1,3 @@
-python django/channels_redis
 python django/code.djangoproject.com
 python django/daphne
 python django/django-asv
