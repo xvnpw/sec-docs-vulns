@@ -1,4 +1,3 @@
-python azure/ai_on_infra_lab
 python azure/ai-benchmarking-guide
 python azure/ai-document-processor
 python azure/aml-airfield
