@@ -1,4 +1,3 @@
-python google/gdb_gcore_point
 python google/gematria
 python google/gemma_pytorch
 python google/giftstick
