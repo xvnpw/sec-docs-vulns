@@ -1,4 +1,3 @@
-python facebookincubator/ft_utils
 python facebookincubator/hwbits_lib
 python facebookincubator/kernel-patches-daemon
 python facebookincubator/later
