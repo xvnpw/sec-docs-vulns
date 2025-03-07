@@ -1,4 +1,3 @@
-python azure/pykusto
 python azure/pyrit
 python azure/rai-vnext-preview
 python azure/stormspotter
