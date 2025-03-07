@@ -1,4 +1,3 @@
-python azure/moneo
 python azure/ms-amp
 python azure/msrest-for-python
 python azure/openapi-mocker
