@@ -1,0 +1,115 @@
+Unable to find image 'ghcr.io/xvnpw/ai-security-analyzer:latest' locally
+latest: Pulling from xvnpw/ai-security-analyzer
+f18232174bc9: Pulling fs layer
+4bf0423a57b1: Pulling fs layer
+d3746672e3dd: Pulling fs layer
+2aad0d33617a: Pulling fs layer
+390536d25a81: Pulling fs layer
+58c6e11fd908: Pulling fs layer
+044c48b98760: Pulling fs layer
+6a65879911b0: Pulling fs layer
+00296fc10ba7: Pulling fs layer
+06dffd2b6507: Pulling fs layer
+2aad0d33617a: Waiting
+390536d25a81: Waiting
+58c6e11fd908: Waiting
+044c48b98760: Waiting
+00296fc10ba7: Waiting
+79af35573e6a: Pulling fs layer
+79af35573e6a: Waiting
+06dffd2b6507: Waiting
+f18232174bc9: Download complete
+4bf0423a57b1: Verifying Checksum
+4bf0423a57b1: Download complete
+f18232174bc9: Pull complete
+d3746672e3dd: Verifying Checksum
+d3746672e3dd: Download complete
+2aad0d33617a: Verifying Checksum
+2aad0d33617a: Download complete
+4bf0423a57b1: Pull complete
+390536d25a81: Verifying Checksum
+390536d25a81: Download complete
+044c48b98760: Verifying Checksum
+044c48b98760: Download complete
+6a65879911b0: Verifying Checksum
+6a65879911b0: Download complete
+d3746672e3dd: Pull complete
+58c6e11fd908: Verifying Checksum
+58c6e11fd908: Download complete
+2aad0d33617a: Pull complete
+390536d25a81: Pull complete
+06dffd2b6507: Download complete
+79af35573e6a: Verifying Checksum
+79af35573e6a: Download complete
+58c6e11fd908: Pull complete
+044c48b98760: Pull complete
+6a65879911b0: Pull complete
+00296fc10ba7: Verifying Checksum
+00296fc10ba7: Download complete
+00296fc10ba7: Pull complete
+06dffd2b6507: Pull complete
+79af35573e6a: Pull complete
+Digest: sha256:df7ac66df63c84f6a023db12762672a4dad0b50f067194551a0e06db859e924f
+Status: Downloaded newer image for ghcr.io/xvnpw/ai-security-analyzer:latest
+2025-03-07 19:33:11,695 - __main__ - INFO - Starting AI Security Analyzer
+2025-03-07 19:33:12,959 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Loading README.md
+2025-03-07 19:33:12,960 - ai_security_analyzer.loaders - INFO - exclude config: mode=add, patterns=['LICENSE', '**/dist/**', '**/bin/**', '**/build/**', '**/node_modules/**', '**/lib/**', '**/libs/**']
+2025-03-07 19:33:12,960 - ai_security_analyzer.loaders - INFO - include config: mode=add, patterns=['**/*.md', '**/Dockerfile', '**/*.yml', '**/*.sh', '**/*.bash', '**/*.yaml', '**/*.toml', '**/*.py', 'pyproject.toml', 'requirements.txt']
+2025-03-07 19:33:12,960 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Loaded README.md
+2025-03-07 19:33:12,963 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Getting attack vector description
+2025-03-07 19:33:23,434 - ai_security_analyzer.full_dir_scan_agents - INFO - Loading files
+2025-03-07 19:33:23,434 - ai_security_analyzer.loaders - INFO - exclude config: mode=add, patterns=['LICENSE', '**/dist/**', '**/bin/**', '**/build/**', '**/node_modules/**', '**/lib/**', '**/libs/**', '**/.github/**']
+2025-03-07 19:33:23,434 - ai_security_analyzer.loaders - INFO - include config: mode=add, patterns=['**/*.md', '**/Dockerfile', '**/*.yml', '**/*.sh', '**/*.bash', '**/*.yaml', '**/*.toml', '**/*.py', 'pyproject.toml', 'requirements.txt']
+2025-03-07 19:33:23,443 - ai_security_analyzer.full_dir_scan_agents - INFO - Loaded 3 documents
+2025-03-07 19:33:23,444 - ai_security_analyzer.full_dir_scan_agents - INFO - Sorting and filtering documents
+2025-03-07 19:33:23,444 - ai_security_analyzer.full_dir_scan_agents - INFO - Documents after sorting and filtering: 3
+2025-03-07 19:33:23,445 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitting documents
+2025-03-07 19:33:23,450 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitted documents into smaller chunks: 3
+2025-03-07 19:33:23,450 - ai_security_analyzer.full_dir_scan_agents - INFO - Creating initial draft
+2025-03-07 19:33:23,453 - ai_security_analyzer.full_dir_scan_agents - INFO - Processing first batch of documents: 3 of 3
+2025-03-07 19:33:32,886 - ai_security_analyzer.full_dir_scan_agents - INFO - Generating final response
+2025-03-07 19:33:32,895 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Filtering vulnerabilities
+2025-03-07 19:33:40,866 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Getting attack vector description
+2025-03-07 19:34:02,816 - ai_security_analyzer.full_dir_scan_agents - INFO - Loading files
+2025-03-07 19:34:02,816 - ai_security_analyzer.loaders - INFO - exclude config: mode=add, patterns=['LICENSE', '**/dist/**', '**/bin/**', '**/build/**', '**/node_modules/**', '**/lib/**', '**/libs/**', '**/.github/**']
+2025-03-07 19:34:02,816 - ai_security_analyzer.loaders - INFO - include config: mode=add, patterns=['**/*.md', '**/Dockerfile', '**/*.yml', '**/*.sh', '**/*.bash', '**/*.yaml', '**/*.toml', '**/*.py', 'pyproject.toml', 'requirements.txt']
+2025-03-07 19:34:02,823 - ai_security_analyzer.full_dir_scan_agents - INFO - Loaded 3 documents
+2025-03-07 19:34:02,824 - ai_security_analyzer.full_dir_scan_agents - INFO - Sorting and filtering documents
+2025-03-07 19:34:02,824 - ai_security_analyzer.full_dir_scan_agents - INFO - Documents after sorting and filtering: 3
+2025-03-07 19:34:02,825 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitting documents
+2025-03-07 19:34:02,829 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitted documents into smaller chunks: 3
+2025-03-07 19:34:02,830 - ai_security_analyzer.full_dir_scan_agents - INFO - Creating initial draft
+2025-03-07 19:34:02,833 - ai_security_analyzer.full_dir_scan_agents - INFO - Processing first batch of documents: 3 of 3
+2025-03-07 19:34:18,594 - ai_security_analyzer.full_dir_scan_agents - INFO - Generating final response
+2025-03-07 19:34:18,602 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Filtering vulnerabilities
+2025-03-07 19:34:27,040 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Getting attack vector description
+2025-03-07 19:34:31,955 - ai_security_analyzer.full_dir_scan_agents - INFO - Loading files
+2025-03-07 19:34:31,955 - ai_security_analyzer.loaders - INFO - exclude config: mode=add, patterns=['LICENSE', '**/dist/**', '**/bin/**', '**/build/**', '**/node_modules/**', '**/lib/**', '**/libs/**', '**/.github/**']
+2025-03-07 19:34:31,955 - ai_security_analyzer.loaders - INFO - include config: mode=add, patterns=['**/*.md', '**/Dockerfile', '**/*.yml', '**/*.sh', '**/*.bash', '**/*.yaml', '**/*.toml', '**/*.py', 'pyproject.toml', 'requirements.txt']
+2025-03-07 19:34:31,962 - ai_security_analyzer.full_dir_scan_agents - INFO - Loaded 3 documents
+2025-03-07 19:34:31,963 - ai_security_analyzer.full_dir_scan_agents - INFO - Sorting and filtering documents
+2025-03-07 19:34:31,963 - ai_security_analyzer.full_dir_scan_agents - INFO - Documents after sorting and filtering: 3
+2025-03-07 19:34:31,964 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitting documents
+2025-03-07 19:34:31,968 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitted documents into smaller chunks: 3
+2025-03-07 19:34:31,969 - ai_security_analyzer.full_dir_scan_agents - INFO - Creating initial draft
+2025-03-07 19:34:31,971 - ai_security_analyzer.full_dir_scan_agents - INFO - Processing first batch of documents: 3 of 3
+2025-03-07 19:34:45,903 - ai_security_analyzer.full_dir_scan_agents - INFO - Generating final response
+2025-03-07 19:34:45,911 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Filtering vulnerabilities
+2025-03-07 19:34:53,468 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Getting attack vector description
+2025-03-07 19:35:00,506 - ai_security_analyzer.full_dir_scan_agents - INFO - Loading files
+2025-03-07 19:35:00,506 - ai_security_analyzer.loaders - INFO - exclude config: mode=add, patterns=['LICENSE', '**/dist/**', '**/bin/**', '**/build/**', '**/node_modules/**', '**/lib/**', '**/libs/**', '**/.github/**']
+2025-03-07 19:35:00,506 - ai_security_analyzer.loaders - INFO - include config: mode=add, patterns=['**/*.md', '**/Dockerfile', '**/*.yml', '**/*.sh', '**/*.bash', '**/*.yaml', '**/*.toml', '**/*.py', 'pyproject.toml', 'requirements.txt']
+2025-03-07 19:35:00,513 - ai_security_analyzer.full_dir_scan_agents - INFO - Loaded 3 documents
+2025-03-07 19:35:00,514 - ai_security_analyzer.full_dir_scan_agents - INFO - Sorting and filtering documents
+2025-03-07 19:35:00,514 - ai_security_analyzer.full_dir_scan_agents - INFO - Documents after sorting and filtering: 3
+2025-03-07 19:35:00,515 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitting documents
+2025-03-07 19:35:00,517 - ai_security_analyzer.full_dir_scan_agents - INFO - Splitted documents into smaller chunks: 3
+2025-03-07 19:35:00,518 - ai_security_analyzer.full_dir_scan_agents - INFO - Creating initial draft
+2025-03-07 19:35:00,520 - ai_security_analyzer.full_dir_scan_agents - INFO - Processing first batch of documents: 3 of 3
+2025-03-07 19:35:12,929 - ai_security_analyzer.full_dir_scan_agents - INFO - Generating final response
+2025-03-07 19:35:12,935 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Filtering vulnerabilities
+2025-03-07 19:35:19,122 - ai_security_analyzer.vulnerabilities_workflow2 - INFO - Consolidating vulnerabilities
+2025-03-07 19:35:31,979 - ai_security_analyzer.graphs - INFO - Actual token usage: 54122
+2025-03-07 19:35:32,001 - __main__ - INFO - AI Security Analyzer completed successfully
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1741376134.223503       1 init.cc:232] grpc_wait_for_shutdown_with_timeout() timed out.
