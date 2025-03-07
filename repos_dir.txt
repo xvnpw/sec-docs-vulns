@@ -1,4 +1,3 @@
-python azure/aml-workspace
 python azure/aoai-apim
 python azure/ap5gc-vendor-tools
 python azure/appcat-konveyor-rulesets
