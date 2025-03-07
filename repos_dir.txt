@@ -1,4 +1,3 @@
-python azure/azure-machine-learning-adoption-framework
 python azure/azure-maps-plugin-for-qgis
 python azure/azure-marketplace-management-extras
 python azure/azureml-oss-models
