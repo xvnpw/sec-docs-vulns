@@ -1,0 +1,14 @@
+{
+  "repo_url": "google/gps-babel-tower",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/google/gps-babel-tower --recursion-limit 100",
+  "start_datetime": "2025-03-07T20:05:16Z",
+  "end_datetime": "2025-03-07T20:07:54Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "162942",
+  "mode": "dir"
+}
