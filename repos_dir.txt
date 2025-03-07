@@ -1,4 +1,3 @@
-python freedomofpress/securedrop-workstation
 python golang/sublime-build
 python golang/sublime-config
 python google/active-learning
