@@ -1,4 +1,3 @@
-python azure/azure-purview-api-powershell
 python azure/azure-storage-for-pytorch
 python azure/azure-storage-python
 python azure/azure-uamqp-python
