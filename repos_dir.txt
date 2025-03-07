@@ -1,4 +1,3 @@
-python google/image_mix
 python google/importlab
 python google/import-mailbox-to-gmail
 python google/init2winit
