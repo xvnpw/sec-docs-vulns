@@ -1,4 +1,3 @@
-python google/e3d_lstm
 python google/emboss
 python google/etils
 python google/feabench
