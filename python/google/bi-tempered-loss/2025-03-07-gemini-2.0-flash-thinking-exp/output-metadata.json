@@ -1,0 +1,14 @@
+{
+  "repo_url": "google/bi-tempered-loss",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/google/bi-tempered-loss --recursion-limit 100",
+  "start_datetime": "2025-03-07T15:45:24Z",
+  "end_datetime": "2025-03-07T15:48:03Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "96605",
+  "mode": "dir"
+}
