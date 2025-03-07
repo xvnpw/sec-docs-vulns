@@ -1,4 +1,3 @@
-python azure/hpcpack-acm-cli
 python azure/hpcpack-linux-agent
 python azure/hpcpack-mesos
 python azure/inferenceschema
