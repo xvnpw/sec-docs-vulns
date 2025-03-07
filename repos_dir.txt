@@ -1,4 +1,3 @@
-python azure/azure-marketplace-management-extras
 python azure/azureml-oss-models
 python azure/azure-network-security
 python azure/azure-openai-benchmark
