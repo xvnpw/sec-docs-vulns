@@ -1,4 +1,3 @@
-python azure/cosmos-tls-scanner
 python azure/costmanagement-to-kusto
 python azure/counterfit
 python azure/cyclecloud-scalelib
