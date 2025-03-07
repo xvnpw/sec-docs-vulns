@@ -1,4 +1,3 @@
-python dynatrace/extension-automated-config
 python dynatrace/insightify
 python dynatrace/obslab-jmeter
 python dynatrace/obslab-release-validation
