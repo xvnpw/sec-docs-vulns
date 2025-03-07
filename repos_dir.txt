@@ -1,4 +1,3 @@
-python azure/ai-document-processor
 python azure/aml-airfield
 python azure/aml-compute
 python azure/aml-deploy
