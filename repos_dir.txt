@@ -1,4 +1,3 @@
-python azure/gpt-rag-agentic
 python azure/gpt-rag-ingestion
 python azure/gpt-rag-securityhub
 python azure/hpc-accelerator
