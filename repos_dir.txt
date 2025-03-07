@@ -1,4 +1,3 @@
-python google/csv-to-firestore
 python google/cyanobyte
 python google/dataflow-ml-starter
 python google/deepconsensus
