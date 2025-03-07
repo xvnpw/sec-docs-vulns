@@ -1,4 +1,3 @@
-python azure/2021-machine-learning-security-evasion-competition
 python azure/aaz-dev-tools
 python azure/ai_on_infra_lab
 python azure/ai-benchmarking-guide
