@@ -1,4 +1,3 @@
-python facebook/facebook-python-business-sdk
 python facebook/fai-pep
 python facebook/ocaml-scripts
 python facebook/pathpicker
