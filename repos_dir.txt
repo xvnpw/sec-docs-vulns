@@ -1,4 +1,3 @@
-python azure/azure-functions-python-extensions
 python azure/azure-functions-python-library
 python azure/azure-functions-python-worker
 python azure/azure-hanaonazure-cli-extension
