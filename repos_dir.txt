@@ -1,4 +1,3 @@
-python azure/gpt-rag-securityhub
 python azure/hpc-accelerator
 python azure/hpcadvisor
 python azure/hpcpack-acm-api-python
