@@ -1,4 +1,3 @@
-python azure/aml-registermodel
 python azure/aml-run
 python azure/aml-workspace
 python azure/aoai-apim
