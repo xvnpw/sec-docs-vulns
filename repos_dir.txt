@@ -1,4 +1,3 @@
-python azure/partnercenter-cli-extension
 python azure/plato
 python azure/pykusto
 python azure/pyrit
