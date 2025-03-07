@@ -1,4 +1,3 @@
-python django/daphne
 python django/django-asv
 python django/djangobench
 python django/django-contrib-comments
