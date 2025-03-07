@@ -1,4 +1,3 @@
-python facebookincubator/ltvision
 python facebookincubator/onlineschemachange
 python facebookincubator/senpai
 python facebookincubator/submitit
