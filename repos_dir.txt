@@ -1,4 +1,3 @@
-python azure/autorest.azure-functions-python
 python azure/averesdk
 python azure/az-cgpu-onboarding
 python azure/az-csvmware-cli
