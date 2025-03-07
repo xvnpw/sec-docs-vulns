@@ -1,4 +1,3 @@
-python azure/azure-storage-python
 python azure/azure-uamqp-python
 python azure/azure-vm-recovery
 python azure/batchexplorer-data
