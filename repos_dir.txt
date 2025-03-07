@@ -1,4 +1,3 @@
-python django/asgiref
 python django/channels
 python django/channels_redis
 python django/code.djangoproject.com
