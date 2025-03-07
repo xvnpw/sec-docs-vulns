@@ -1,4 +1,3 @@
-python aws/sagemaker-hyperpod-training-adapter-for-nemo
 python aws/sagemaker-image-builder
 python aws/sagemaker-inference-toolkit
 python aws/sagemaker-jumpstart-industry-pack
