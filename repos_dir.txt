@@ -1,4 +1,3 @@
-python dynatrace/dynatrace-eventdrivenansible
 python dynatrace/dynatrace-log-security-rules-checker
 python dynatrace/dynatrace-oneagent-ansible
 python dynatrace/extension-automated-config
