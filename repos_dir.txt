@@ -1,4 +1,4 @@
-python facebookincubator/ft_utilsgo golang/glog
+python facebookincubator/ft_utils
 python facebookincubator/hwbits_lib
 python facebookincubator/kernel-patches-daemon
 python facebookincubator/later
@@ -71,7 +71,7 @@ python google/duet
 python google/e3d_lstm
 python google/emboss
 python google/etils
-python google/feabenchgo grafana/carbon-relay-ng
+python google/feabench
 python google/fedjax
 python google/feedloader
 python google/ffn
