@@ -1,4 +1,3 @@
-python facebook/prophet
 python facebook/sapp
 python facebook/threat-research
 python facebook/usort
