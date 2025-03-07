@@ -1,0 +1,34 @@
+- Vulnerability Name: Potential for Malicious Input to Influence Model Output
+- Description:
+  - An attacker crafts a malicious input FASTQ or BAM file containing specifically designed sequencing data.
+  - The attacker provides this malicious input to the DeepConsensus application through the command line interface, using flags such as `--subreads_to_ccs` and `--ccs_bam`.
+  - DeepConsensus processes the provided sequencing data without sufficient validation or sanitization.
+  - The malicious input data is processed by the deep learning model, which is susceptible to being influenced by crafted inputs.
+  - As a result, the model produces a FASTQ output file that, while appearing valid, contains subtly altered sequence corrections, potentially introducing biases or inaccuracies.
+  - Downstream genomic analyses that utilize this compromised FASTQ output will inherit these biases or inaccuracies, leading to potentially flawed scientific conclusions.
+- Impact:
+  - Downstream genomic analyses are compromised, leading to unreliable results.
+  - FASTQ output files are subtly altered, containing biased or incorrect sequence corrections that are difficult to detect immediately.
+  - Genomic data integrity is undermined, impacting the reliability of research and clinical applications relying on DeepConsensus corrected reads.
+- Vulnerability Rank: High
+- Currently implemented mitigations:
+  - No specific mitigations for malicious input are implemented in the provided project files. The project's focus is on functionality and accuracy in ideal conditions, not adversarial robustness.
+- Missing mitigations:
+  - Implement robust input validation and sanitization to check FASTQ and BAM files for malicious content before processing. This should include checks for format compliance, unexpected data patterns, and potential exploit vectors.
+  - Develop and incorporate security checks within the DeepConsensus pipeline to detect anomalies or biases introduced by potentially malicious inputs during processing.
+  - Implement mechanisms to alert users or halt processing if potentially malicious input is detected, preventing the generation of compromised output files.
+- Preconditions:
+  - The attacker has the ability to provide a malicious FASTQ or BAM file as input to the DeepConsensus application. This could be through direct command-line interaction or indirectly if the application is integrated into a pipeline that processes external data without prior sanitization.
+  - The DeepConsensus application is run on the malicious input without adequate input validation, allowing the crafted data to influence the model's output.
+- Source code analysis:
+  - Review of the provided source code reveals a lack of input validation and sanitization routines specifically designed to counter malicious inputs.
+  - The `deepconsensus/cli.py` file handles command-line argument parsing but does not include checks for malicious content within the input files.
+  - The preprocessing steps in `deepconsensus/preprocess/*` focus on data transformation and preparation for the deep learning model rather than security measures against adversarial inputs.
+  - The deep learning model architecture, as defined in `deepconsensus/models/*`, is designed for optimizing sequence correction accuracy and does not incorporate security considerations for handling potentially malicious data.
+  - There are no explicit security-focused checks or filters in the codebase to prevent or detect malicious manipulation of the input data or the resulting output.
+- Security test case:
+  - Step 1: Create a malicious FASTQ file. This file should be crafted to include sequences designed to induce a specific bias or error in the DeepConsensus correction process. Examples include sequences with high frequencies of specific bases in error-prone contexts or sequences designed to exploit known weaknesses in deep learning models.
+  - Step 2: Execute the DeepConsensus application using the `deepconsensus run` command. Provide the crafted malicious FASTQ file as input using the `--subreads_to_ccs` and `--ccs_bam` flags. Specify an output path using the `--output` flag.
+  - Step 3: Analyze the resulting output FASTQ file. Compare it to the output generated from benign, representative input data.
+  - Step 4: Investigate the output FASTQ for signs of manipulation, such as a statistically significant skew in base frequencies, the introduction of specific sequence motifs not present in benign outputs, or any other systematic deviations from expected correction patterns.
+  - Step 5: If the output FASTQ demonstrably reflects the intended manipulation from the malicious input (e.g., a predictable bias in base calls or sequence corrections), then the vulnerability is considered valid.
