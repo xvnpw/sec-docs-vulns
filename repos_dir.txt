@@ -1,4 +1,3 @@
-python azure/arconavs
 python azure/arconavsinternal
 python azure/auto-kyc
 python azure/automl-vnext-preview
