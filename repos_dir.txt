@@ -1,4 +1,3 @@
-python azure/aml-deploy
 python azure/aml-object-classification-pipeline
 python azure/aml-registermodel
 python azure/aml-run
