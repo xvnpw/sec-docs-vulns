@@ -1,4 +1,3 @@
-python azure/darmstadt
 python azure/databox-adls-loader
 python azure/databricks360
 python azure/db-dsc-jobs
