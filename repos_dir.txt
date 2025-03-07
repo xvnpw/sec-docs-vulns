@@ -1,4 +1,3 @@
-python azure/mlops-starter-sklearn
 python azure/mlops-templates
 python azure/moneo
 python azure/ms-amp
