@@ -1,4 +1,3 @@
-python django/djangobench
 python django/django-contrib-comments
 python django/django-fuzzerscsharp dotnet/cecil
 python django/django-localflavor
