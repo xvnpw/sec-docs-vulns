@@ -1,4 +1,3 @@
-python google/ml-compiler-opt
 python google/ml-edu
 python google/ml-fairness-gym
 python google/ml-metrics
