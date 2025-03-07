@@ -1,4 +1,3 @@
-python google/giftstick
 python google/gin-config
 python google/github_actions_playground
 python google/github_nonpublic_api
