@@ -1,0 +1,14 @@
+{
+  "repo_url": "azure/azure-keyvault-cli-extension",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/azure/azure-keyvault-cli-extension --recursion-limit 100",
+  "start_datetime": "2025-03-07T04:33:20Z",
+  "end_datetime": "2025-03-07T04:36:23Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "2188066",
+  "mode": "dir"
+}
