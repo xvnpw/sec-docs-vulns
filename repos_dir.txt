@@ -1,4 +1,3 @@
-python facebookincubator/kernel-patches-daemon
 python facebookincubator/later
 python facebookincubator/ltvision
 python facebookincubator/onlineschemachange
