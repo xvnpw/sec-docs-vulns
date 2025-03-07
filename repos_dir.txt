@@ -1,4 +1,3 @@
-python azure/azure-iot-ops-cli-extension
 python azure/azure-iot-sdk-python
 python azure/azure-keyvault-cli-extension
 python azure/azure-kusto-python
