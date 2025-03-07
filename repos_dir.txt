@@ -1,4 +1,3 @@
-python aws/sagemaker-pytorch-training-toolkit
 python aws/sagemaker-rl-container
 python aws/sagemaker-scikit-learn-container
 python aws/sagemaker-scikit-learn-extension
