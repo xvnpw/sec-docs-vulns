@@ -1,4 +1,3 @@
-python django/code.djangoproject.com
 python django/daphne
 python django/django-asv
 python django/djangobench
