@@ -1,4 +1,3 @@
-python google/globalfoundries-pdk-libs-gf180mcu_fd_pr
 python google/globalfoundries-pdk-libs-gf180mcu_fd_pv
 python google/gov-meetings-made-searchable
 python google/gps-babel-tower
