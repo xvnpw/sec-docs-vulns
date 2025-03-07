@@ -1,0 +1,25 @@
+- Vulnerability name: Reflected Cross-Site Scripting (XSS) in Markdown Component
+- Description: The `markdown` component in Mesop is vulnerable to reflected Cross-Site Scripting (XSS). When a user provides malicious input to the `markdown` component, it is not properly sanitized and is reflected back to the user's browser. This allows an attacker to inject arbitrary HTML and JavaScript code into the context of the Mesop application.
+- Impact: An attacker can execute arbitrary JavaScript code in the victim's browser, leading to account hijacking, data theft, or other malicious actions.
+- Vulnerability rank: High
+- Currently implemented mitigations: Mesop uses Angular's built-in sanitization for the `markdown` component. However, this sanitization is insufficient to prevent XSS in all cases, particularly when developers might bypass it or when vulnerabilities exist within the sanitization library itself, or when novel XSS vectors are used that are not covered by the sanitizer.
+- Missing mitigations:
+    - Content Security Policy (CSP): While Mesop implements a CSP, it might not be strict enough to prevent all XSS attacks, especially reflected XSS. A stricter CSP could limit the capabilities of injected scripts.
+    - Input Sanitization/Validation:  Mesop should provide clear guidelines and tools for developers to sanitize user inputs before embedding them in `markdown` components. This could include escaping user input or using a more robust HTML sanitizer and clearly documenting how to use it within Mesop applications.
+    - Security Audits and Testing: Regular security audits and penetration testing should be conducted to identify and address potential XSS vulnerabilities.
+- Preconditions:
+    - The application must use the `markdown` component to render user-controlled content.
+    - An attacker needs to find a way to inject malicious markdown content into the application, for example, through URL parameters or form inputs that are then rendered by the markdown component.
+- Source code analysis:
+    - File: /code/docs/components/markdown.md
+    - The documentation for the `markdown` component does not explicitly mention any built-in XSS protection or sanitization. It states: "Markdown is used to render markdown text." This implies that the framework relies on Angular's built-in sanitization, but doesn't provide specific guidance for developers.
+    - File: /code/docs/guides/web-security.md
+    - This document mentions: "Mesop APIs do not allow arbitrary JavaScript execution in the main execution context. For example, the [markdown](../components/markdown.md) component sanitizes the markdown content and removes active HTML content like JavaScript." This confirms that sanitization is in place, but the description lacks details about the robustness of the sanitization and potential bypasses. It also does not warn against embedding unsanitized user input in markdown components.
+    - File: /code/mesop/components/markdown.py
+    - The source code of the `markdown` component itself (/code/mesop/components/markdown.py) simply passes the text to the Angular frontend component without additional server-side sanitization. The sanitization logic is assumed to be entirely within the Angular frontend.
+- Security test case:
+    - Precondition: Deploy a Mesop application that uses the `markdown` component to render user-provided input, for example, from a query parameter.
+    - Step 1: Prepare a malicious payload. For example: `<img src=x onerror=alert(document.domain)>`
+    - Step 2: Construct a URL to the Mesop application with the malicious payload as a query parameter that is rendered by the markdown component. For example, if the path is `/test_xss` and the query parameter is `input`, the URL would be: `/test_xss?input=<img src=x onerror=alert(document.domain)>`
+    - Step 3: Access the crafted URL in a web browser.
+    - Expected result: A JavaScript alert box displaying the document domain should appear, demonstrating successful XSS. Alternatively, inspect the page source to confirm that the unsanitized `<img>` tag is present in the rendered HTML. If the alert box appears, it confirms the vulnerability.
