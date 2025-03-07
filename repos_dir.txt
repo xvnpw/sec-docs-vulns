@@ -1,4 +1,3 @@
-python azure/toothcomb
 python azure/torchtune-azureml
 python azure/transition_embeddings_model
 python azure/tugboat
