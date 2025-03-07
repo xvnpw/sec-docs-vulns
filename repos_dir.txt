@@ -1,4 +1,3 @@
-python azure/dev-box-images
 python azure/diskinfo
 python azure/elenchus
 python azure/feast-azure
