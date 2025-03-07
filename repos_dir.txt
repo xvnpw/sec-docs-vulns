@@ -1,4 +1,3 @@
-python aws/industry-toolkit
 python aws/iot-expresslink
 python aws/lightsail-setup-instance-https
 python aws/porting-advisor-for-graviton
