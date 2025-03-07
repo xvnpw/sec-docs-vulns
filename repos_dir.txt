@@ -1,4 +1,3 @@
-python google/deluca
 python google/dexmod
 python google/dfdewey
 python google/dfindexeddb
