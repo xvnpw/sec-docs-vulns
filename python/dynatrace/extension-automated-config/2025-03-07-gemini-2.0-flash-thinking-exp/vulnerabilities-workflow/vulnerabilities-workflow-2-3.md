@@ -1,0 +1,42 @@
+### Vulnerability List
+
+- Vulnerability Name: API Token Exposure in Debug Logs
+- Description:
+    - The Dynatrace ActiveGate extension is configured with an API token for authentication.
+    - The `RequestHandler.py` uses the `requests` library to make API calls to the Dynatrace API.
+    - In the `make_dt_api_request` function, the code logs the entire `response.request` object at the DEBUG level: `logger.debug("[RequestHandler] Requests: %s", response.request)`.
+    - The `response.request` object from the `requests` library can contain sensitive information, including request headers.
+    - If debug logging is enabled for the extension (which might be done for troubleshooting), the logs could inadvertently contain the API token in plain text, exposing it to anyone with access to the ActiveGate logs.
+- Impact:
+    - Exposure of the Dynatrace API token.
+    - An attacker with access to the ActiveGate logs can extract the API token.
+    - With the API token, the attacker gains unauthorized read access to Dynatrace audit logs and entity data (auditLogs.read, entities.read).
+    - This can lead to information disclosure of sensitive configuration changes and entity details within the Dynatrace environment.
+- Vulnerability Rank: Medium
+- Currently Implemented Mitigations:
+    - None in the code itself to prevent logging the request object in debug mode.
+    - Implicit reliance on users securing their ActiveGate logs.
+- Missing Mitigations:
+    - Avoid logging the entire `response.request` object at DEBUG level. Instead, log only relevant parts of the request, excluding headers or specifically masking sensitive headers like 'Authorization'.
+    - Recommend secure logging practices in documentation, emphasizing not to enable debug logging in production or to secure access to ActiveGate logs.
+- Preconditions:
+    - Debug logging must be enabled for the Dynatrace ActiveGate extension.
+    - An attacker must have access to the ActiveGate logs where debug messages are written.
+- Source Code Analysis:
+    - 1. Open `/code/RequestHandler.py`.
+    - 2. Locate the `make_dt_api_request` function.
+    - 3. Find the line: `logger.debug("[RequestHandler] Requests: %s", response.request)`.
+    - 4. This line uses the `logging` library to log the `response.request` object at the DEBUG level.
+    - 5. The `response.request` object from the `requests` library includes details of the request made, including headers.
+    - 6. The headers, as defined in `AuditActiveGatePlugin.py`, contain the API token in the 'Authorization' header.
+    - 7. If debug logging is enabled, this line will cause the API token to be written to the logs in plain text as part of the request headers.
+- Security Test Case:
+    - 1. Deploy the Dynatrace Automated Configuration Audit extension to an ActiveGate.
+    - 2. Configure the extension in Dynatrace UI with a valid Dynatrace URL and API token.
+    - 3. Enable DEBUG logging for the extension. This may involve modifying the ActiveGate's logging configuration or the extension's logging settings if configurable.
+    - 4. Trigger the extension to run a polling cycle by waiting for the configured polling interval or manually triggering the `query` function if possible through ActiveGate testing tools or by restarting the extension.
+    - 5. Access the ActiveGate extension logs. The location of these logs depends on the ActiveGate installation (e.g., `/opt/dynatrace/remotepluginmodule/log/extension/<extension_name>.log` on Linux).
+    - 6. Search the logs for entries containing the string: `[RequestHandler] Requests:`.
+    - 7. Examine the log entries found. Check if the `response.request` object, which is printed after this string, contains the 'Authorization' header.
+    - 8. Verify if the 'Authorization' header within the logged `response.request` object contains the API token in plain text.
+    - 9. If the API token is found in plain text within the debug logs, the vulnerability is confirmed.
