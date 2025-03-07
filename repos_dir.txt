@@ -1,4 +1,3 @@
-python azure/ap5gc-vendor-tools
 python azure/appcat-konveyor-rulesets
 python azure/arconavs
 python azure/arconavsinternal
