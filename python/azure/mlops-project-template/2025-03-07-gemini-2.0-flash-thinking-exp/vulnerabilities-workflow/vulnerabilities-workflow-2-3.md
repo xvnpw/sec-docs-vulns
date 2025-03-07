@@ -1,0 +1,33 @@
+- Vulnerability Name: **Dependency Vulnerabilities in Docker Images and Conda Environments**
+- Description:
+    - The project uses Dockerfiles and Conda environment files to define the environments for training and inference.
+    - These files specify versions for Python packages (e.g., in `requirements.txt`, `environment.yml`, `conda_env.yml`).
+    - If the specified versions of these packages contain known security vulnerabilities, any deployed ML application using these environments will inherit these vulnerabilities.
+    - An attacker could potentially exploit these vulnerabilities in the deployed application.
+    - To trigger this vulnerability, an attacker would need to target a specific vulnerability in one of the outdated dependencies used in the project's environment definitions.
+- Impact:
+    - The impact depends on the specific vulnerability in the outdated dependency. It could range from information disclosure, arbitrary code execution to denial of service, depending on the nature of the vulnerability and how the vulnerable dependency is used in the deployed application.
+    - In the context of the specified attack vectors, a deserialization vulnerability in a dependency used for input handling could be directly exploitable.
+- Vulnerability Rank: Medium (can be High or Critical depending on the specific dependency vulnerability)
+- Currently Implemented Mitigations:
+    - None in the provided project files. The project specifies dependency versions but does not include mechanisms for vulnerability scanning or automatic updates.
+- Missing Mitigations:
+    - **Dependency Scanning**: Implement dependency scanning tools (like `safety`, `snyk`, or GitHub Dependabot) in the CI/CD pipeline to identify known vulnerabilities in project dependencies.
+    - **Dependency Updates**: Regularly update dependencies to their latest secure versions. Consider using dependency management tools to automate updates and track dependency health.
+    - **Pinning Dependencies with Security Audits**: While pinning dependencies is done, it should be coupled with regular security audits to ensure pinned versions remain secure and are updated when necessary.
+- Preconditions:
+    - The deployed application must rely on one or more of the specified dependencies in the Dockerfiles or Conda environment files.
+    - A known security vulnerability must exist in one of the specified dependency versions.
+    - The attacker must be able to trigger the vulnerable code path in the deployed application.
+- Source Code Analysis:
+    - **File: /code/cv/aml-cli-v2/data-science/environment/Dockerfile, /code/nlp/aml-cli-v2/data-science/environments/training/Dockerfile, /code/nlp/python-sdk-v2/data-science/environments/training/Dockerfile**: These Dockerfiles use `COPY requirements.txt ./` and `RUN pip install -r requirements.txt`. The `requirements.txt` file is not provided in the PROJECT FILES, so we can't analyze its content directly. However, this pattern indicates dependencies are installed from a potentially unmanaged list.
+    - **File: /code/environment.yml, /code/cv/python-sdk-v1/data-science/environment/training/conda_dependencies.yml, /code/nlp/aml-cli-v2/data-science/environments/inference/conda_env.yml, /code/nlp/python-sdk-v2/data-science/environments/inference/conda_env.yml, /code/classical/aml-cli-v2/data-science/environment/train-conda.yml, /code/classical/rai-aml-cli-v2/data-science/environment/train-conda.yml, /code/classical/python-sdk-v1/data-science/environment/train.yml, /code/classical/python-sdk-v1/data-science/environment/train_monitor.yml, /code/classical/python-sdk-v1/data-science/environment/batch.yml, /code/classical/python-sdk-v1/data-science/environment/batch_monitor.yml, /code/classical/python-sdk-v2/data-science/environment/train-conda.yml, /code/cv/aml-cli-v2/mlops/azureml/train/train-env.yaml, /code/classical/aml-cli-v2/data-science/environment/train-conda.yml, /code/classical/rai-aml-cli-v2/data-science/environment/train-conda.yml**: These YAML files define Conda environments, listing dependencies with specific versions (e.g., `scikit-learn==0.24.2`, `flask==1.1.2`, `transformers==4.17.0`).  These specific versions might contain vulnerabilities.
+    - **Example:** `nlp/aml-cli-v2/data-science/environments/inference/conda_env.yml` specifies `transformers==4.17.0`.  Checking vulnerability databases, we can find if version 4.17.0 of `transformers` has any known vulnerabilities. If yes, and if the scoring script (`score.py`) uses a vulnerable part of the `transformers` library to process input, then this becomes a valid attack vector.
+
+- Security Test Case:
+    1. **Identify Vulnerable Dependency**: Choose a dependency listed in one of the environment files (e.g., `transformers==4.17.0` in `/code/nlp/aml-cli-v2/data-science/environments/inference/conda_env.yml`). Search online vulnerability databases (NVD, CVE) for known vulnerabilities in this specific version.
+    2. **Verify Vulnerability Exploitability**: If a relevant vulnerability is found (e.g., a deserialization flaw or code execution vulnerability), analyze the project's `score.py` or relevant application code to see if the vulnerable dependency and code path are used in a way that is exposed to external input. For instance, check if `score.py` deserializes untrusted data using a vulnerable function from the identified library.
+    3. **Craft Malicious Input**: If exploitability is confirmed, craft a malicious input that leverages the vulnerability. For example, if it's a deserialization vulnerability, create a malicious serialized payload. If it's a prompt injection, craft a malicious prompt.
+    4. **Send Malicious Input to Deployed Endpoint**: Deploy the NLP summarization endpoint as described in the project documentation. Send the crafted malicious input to the deployed online endpoint.
+    5. **Observe Exploitation**: Monitor the application logs or system behavior to confirm if the vulnerability is successfully exploited. For a deserialization vulnerability, this might manifest as code execution or unexpected application behavior. For prompt injection (less relevant in this specific code but conceptually), it would be observing unintended model behavior based on the injected prompt.
+    6. **Remediation**: Update the vulnerable dependency to a patched version in the relevant environment file (e.g., upgrade `transformers` to a version > 4.17.0 that fixes the vulnerability) and redeploy the application to mitigate the vulnerability. Re-run the test case to verify the vulnerability is no longer exploitable.
