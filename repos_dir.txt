@@ -1,4 +1,3 @@
-python google/cyanobyte
 python google/dataflow-ml-starter
 python google/deepconsensus
 python google/deepvariant
