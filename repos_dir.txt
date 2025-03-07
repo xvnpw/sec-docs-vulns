@@ -1,4 +1,3 @@
-python azure/iot-central-python-client
 python azure/iotedgedev
 python azure/iotedgehubdev
 python azure/iot-sdk-longhaul
