@@ -1,0 +1,39 @@
+### Vulnerability List:
+
+- Vulnerability Name: Information Disclosure / Intelligence Gathering for Attack Evasion
+- Description:
+    - Step 1: The repository publicly hosts Indicators of Compromise (IOCs) and threat indicators related to malicious online operations.
+    - Step 2: An attacker can access and download these publicly available IOC files from the repository (e.g., from the `indicators` directory in the GitHub repository).
+    - Step 3: The attacker analyzes the IOC data to understand the detection patterns and specific indicators (URLs, domains, IPs, hashes, etc.) that are currently being used to identify and block malicious activities.
+    - Step 4: Based on this analysis, the attacker can craft new social engineering, phishing, or malware distribution campaigns that specifically avoid using the disclosed IOCs.
+    - Step 5: By evading these known indicators, the attacker increases the likelihood of successfully compromising systems and users who rely on threat intelligence feeds that include these IOCs for detection.
+- Impact:
+    - Attackers can improve the effectiveness of their malicious campaigns.
+    - Increased success rate of phishing attacks, social engineering, and malware distribution.
+    - Reduced effectiveness of the shared threat intelligence for defenders who rely on these IOCs.
+- Vulnerability Rank: Medium
+- Currently Implemented Mitigations:
+    - Disclaimer in `README.md`: The `README.md` file includes a statement that the repository is not a comprehensive historic view and that engagement with listed links is insufficient for attribution. This disclaimer is a weak mitigation as it does not prevent the information disclosure itself.
+- Missing Mitigations:
+    - Delayed Publication: Implement a delay between the identification of IOCs and their publication in the repository. This would reduce the immediate value of the IOCs to attackers.
+    - Anonymization or Generalization: Instead of publishing specific IOCs, consider sharing anonymized or generalized patterns and types of threat indicators. This would provide some intelligence value without directly revealing actionable indicators for evasion.
+    - Access Restriction: Limit access to the IOC repository to a vetted community or trusted partners instead of making it fully public. This would prevent broad access by malicious actors.
+- Preconditions:
+    - The repository is publicly accessible on GitHub.
+    - IOC data files (CSV, JSON, TSV, STIX) are stored in publicly accessible directories within the repository.
+- Source Code Analysis:
+    - The vulnerability is not within the source code of the scripts (like `tsv_to_csv_and_json.py`), but in the design and purpose of the repository itself.
+    - The `README.md` file explicitly describes the intention to share IOCs publicly: "Welcome to the Meta Threat Research Indicator Repository, a dedicated resource for the sharing of Indicators of Compromise (IOCs) and other threat indicators with the external research community".
+    - The directory structure (e.g., `indicators/csv`, `indicators/json`, `indicators/tsv`, `indicators/stix1`, `indicators/stix2`) indicates that IOCs are systematically collected and made available in various formats.
+    - The script `tsv_to_csv_and_json.py` facilitates the conversion and organization of IOC data into these publicly accessible formats, further enabling the disclosure.
+    - There is no access control mechanism implemented to restrict access to the IOC data within the public GitHub repository.
+- Security Test Case:
+    - Step 1: As an external attacker, navigate to the public GitHub repository for threat-research.
+    - Step 2: Browse to the `indicators` directory: [https://github.com/facebook/threat-research/tree/main/indicators](https://github.com/facebook/threat-research/tree/main/indicators)
+    - Step 3: Explore the available directories (e.g., `csv`, `json`, `tsv`, `stix1`, `stix2`) and identify IOC files (e.g., files with `.csv`, `.json`, `.tsv`, `.xml` extensions).
+    - Step 4: Download and analyze the content of several IOC files. For example, download a CSV file and examine the `indicator_value` column to extract specific IOCs like URLs, domain names, or IP addresses.
+    - Step 5:  Identify patterns and common indicator types used in the IOC lists. For instance, note specific URL patterns, domain naming conventions, or IP ranges that are frequently listed.
+    - Step 6: Design a test phishing campaign. In this campaign, consciously avoid using the specific IOCs and patterns identified in the previous steps. For example, if specific domain names are listed, use different domain names for phishing links. If certain URL structures are present, use different URL structures.
+    - Step 7: Deploy the test phishing campaign against a test environment that is configured to use threat intelligence feeds that are similar in nature and content to the threat-research repository.
+    - Step 8: Monitor the success rate of the phishing campaign (e.g., click-through rates, credential harvesting rates).
+    - Step 9: Compare the success rate of this campaign with the expected success rate of a generic phishing campaign that does not specifically evade the disclosed IOCs. An increased success rate in the IOC-evading campaign would demonstrate the vulnerability, as it shows that attackers can leverage the publicly available IOCs to improve their attack effectiveness.
