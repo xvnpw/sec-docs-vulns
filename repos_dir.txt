@@ -1,4 +1,3 @@
-python aws/simplify-ota-script
 python aws/snapshot-restore-py
 python aws/to-smote-or-not
 python aws/unified-studio-for-amazon-sagemaker
