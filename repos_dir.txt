@@ -1,4 +1,3 @@
-python azure/batchexplorer-data
 python azure/batch-extension-templates
 python azure/carnegie-mop
 python azure/certaintimes
