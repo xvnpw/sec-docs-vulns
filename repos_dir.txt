@@ -1,4 +1,3 @@
-python aws/sagemaker-scikit-learn-container
 python aws/sagemaker-scikit-learn-extension
 python aws/sagemaker-spark-container
 python aws/sagemaker-tensorflow-training-toolkit
