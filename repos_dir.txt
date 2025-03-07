@@ -1,4 +1,3 @@
-python freedomofpress/securedrop-client
 python freedomofpress/securedrop-workstation
 python golang/sublime-build
 python golang/sublime-config
