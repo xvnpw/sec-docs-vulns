@@ -1,4 +1,3 @@
-python aws/serverless-application-model
 python aws/simplify-ota-script
 python aws/snapshot-restore-py
 python aws/to-smote-or-not
