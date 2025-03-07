@@ -1,4 +1,3 @@
-python azure/intelligentedgehol
 python azure/iot-central-micropython-client
 python azure/iot-central-python-client
 python azure/iotedgedev
