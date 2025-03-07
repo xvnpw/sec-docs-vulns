@@ -1,4 +1,3 @@
-python bazelbuild/bazel-bench
 python bazelbuild/continuous-integration
 python bazelbuild/java_tools
 python cloud-gov/pages-build-container
