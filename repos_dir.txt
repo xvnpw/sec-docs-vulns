@@ -1,4 +1,3 @@
-python django/ticketbot
 python dynatrace/custom-webhook-python
 python dynatrace/dynatrace-eventdrivenansible
 python dynatrace/dynatrace-log-security-rules-checker
