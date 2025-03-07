@@ -1,4 +1,3 @@
-python aws/snapshot-restore-py
 python aws/to-smote-or-not
 python aws/unified-studio-for-amazon-sagemaker
 python azure/2020-machine-learning-security-evasion-competition
