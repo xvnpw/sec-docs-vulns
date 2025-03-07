@@ -1,0 +1,14 @@
+{
+  "repo_url": "google/omnimatte-sp",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/google/omnimatte-sp --recursion-limit 100",
+  "start_datetime": "2025-03-07T23:50:40Z",
+  "end_datetime": "2025-03-07T23:53:44Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "152283",
+  "mode": "dir"
+}
