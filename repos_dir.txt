@@ -1,4 +1,3 @@
-python azure/databricks360
 python azure/db-dsc-jobs
 python azure/decisionai-plugin
 python azure/deploy-to-azure-cli-extension
