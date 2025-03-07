@@ -1,4 +1,3 @@
-python azure/rai-vnext-preview
 python azure/stormspotter
 python azure/toothcomb
 python azure/torchtune-azureml
