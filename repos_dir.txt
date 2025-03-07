@@ -1,4 +1,3 @@
-python dynatrace/obslab-jmeter
 python dynatrace/obslab-release-validation
 python dynatrace/obslab-syslog
 python dynatrace/oneagent-sdk-for-python
