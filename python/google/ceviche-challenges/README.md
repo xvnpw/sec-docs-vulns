@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Ceviche-Challenges Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/ceviche-challenges)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

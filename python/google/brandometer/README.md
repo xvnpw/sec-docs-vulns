@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Brandometer Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/brandometer)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

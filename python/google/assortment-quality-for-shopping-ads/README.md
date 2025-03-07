@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Assortment-Quality-For-Shopping-Ads Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/assortment-quality-for-shopping-ads)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

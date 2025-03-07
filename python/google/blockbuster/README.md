@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Blockbuster Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/blockbuster)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

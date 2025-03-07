@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Bayesnf Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/bayesnf)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

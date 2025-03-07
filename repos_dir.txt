@@ -1206,7 +1206,7 @@ python transferwise/neural-lifetimes
 python transferwise/pipelinewise
 python transferwise/pipelinewise-singer-python
 python transferwise/shap-select
-python transferwise/storyline-wiseshell valvesoftware/steam-runtime
+python transferwise/storyline-wise
 python transferwise/tshuttle
 python transferwise/tw-auto-label
 python transferwise/tw-check-label

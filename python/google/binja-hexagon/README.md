@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Binja-Hexagon Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/binja-hexagon)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|

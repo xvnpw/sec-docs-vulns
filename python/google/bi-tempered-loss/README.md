@@ -1,6 +1,6 @@
-# Aqt Analysis
+# Bi-Tempered-Loss Analysis
 
-[GitHub Repository](https://github.com/google/aqt)
+[GitHub Repository](https://github.com/google/bi-tempered-loss)
 
 | Analysis Date | Model | T | Deep Analysis | Documents |
 |---------------|-------|---|:-------------:|-----------|
