@@ -1,4 +1,3 @@
-python azure/diskinfo
 python azure/elenchus
 python azure/feast-azure
 python azure/gitops-connector
