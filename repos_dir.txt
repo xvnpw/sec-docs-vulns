@@ -1,4 +1,3 @@
-python azure/counterfit
 python azure/cyclecloud-scalelib
 python azure/cyclecloud-slurm
 python azure/cyclecloud-symphony
