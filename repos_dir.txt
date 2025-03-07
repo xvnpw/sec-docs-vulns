@@ -1,4 +1,3 @@
-python azure/databox-adls-loader
 python azure/databricks360
 python azure/db-dsc-jobs
 python azure/decisionai-plugin
