@@ -1,4 +1,3 @@
-python google/active-learning
 python google/adb-sync
 python google/adh-deployment-manager
 python google/ad-manager-alerter
