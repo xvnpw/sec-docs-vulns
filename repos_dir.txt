@@ -1,4 +1,3 @@
-python aws/porting-advisor-for-graviton
 python aws/sagemaker-chainer-container
 python aws/sagemaker-core
 python aws/sagemaker-experiments
