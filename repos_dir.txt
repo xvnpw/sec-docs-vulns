@@ -1,4 +1,3 @@
-python azure/tugboat
 python azure/updatemanagement
 python azure/video-analyzer
 python azure/walinuxagent
