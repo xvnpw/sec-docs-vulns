@@ -1,4 +1,3 @@
-python azure/jumpstart-cerebral
 python azure/language-model-pretrain-korean
 python azure/linux-image-validations
 python azure/linuxpatchextension
