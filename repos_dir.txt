@@ -1,4 +1,3 @@
-python azure/linux-image-validations
 python azure/linuxpatchextension
 python azure/mlops-project-template
 python azure/mlops-starter-sklearn
