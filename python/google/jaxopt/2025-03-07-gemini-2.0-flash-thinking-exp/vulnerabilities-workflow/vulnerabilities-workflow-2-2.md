@@ -1,0 +1,36 @@
+### Vulnerability List
+
+- Vulnerability Name: Adversarial Input Misclassification
+- Description:
+  1. An attacker crafts an adversarial input by leveraging the differentiable optimization capabilities of JAXopt.
+  2. The attacker uses techniques like Projected Gradient Descent (PGD), as demonstrated in the project's adversarial training examples, or similar gradient-based methods.
+  3. The crafted input is designed to be semantically similar to a legitimate input but contains small, carefully calculated perturbations.
+  4. This adversarial input is fed into a machine learning model trained using JAXopt.
+  5. Due to the perturbations, the JAXopt-trained model misclassifies the adversarial input, leading to an incorrect prediction.
+- Impact:
+  - Machine learning models built with JAXopt can be misled by adversarial inputs.
+  - This can result in incorrect outputs from the model when processing maliciously crafted data.
+  - For applications relying on the model's predictions, this vulnerability can lead to flawed decisions, potentially causing harm or security breaches depending on the context of use (e.g., autonomous driving, medical diagnosis, security systems).
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+  - The project provides an example notebook (`/code/docs/notebooks/deep_learning/adversarial_training.md`) demonstrating how to implement adversarial training using PGD attacks and defenses. This serves as documentation and a starting point for users to build more robust models.
+- Missing Mitigations:
+  - Input validation and sanitization to detect and reject potentially adversarial inputs before they are processed by the model.
+  - Robustness certification techniques to formally verify the model's resilience to adversarial perturbations within a defined threat model.
+  - Implementation of more advanced adversarial training methods beyond basic PGD, such as incorporating diverse attack strategies or using provable defenses.
+  - Runtime defenses, such as adversarial example detection mechanisms, to identify and flag adversarial inputs at inference time.
+- Preconditions:
+  - A machine learning model must be trained using JAXopt.
+  - The trained model must be deployed and exposed to potentially untrusted external inputs.
+  - The attacker must have sufficient knowledge of the model's architecture and training process to craft effective adversarial inputs.
+- Source Code Analysis:
+  - The provided code, especially the notebooks in `/code/docs/notebooks/deep_learning/`, illustrates the differentiability of JAXopt optimization algorithms. This differentiability, while a core feature, is also the foundation for crafting adversarial examples.
+  - The `resnet_flax.md` and `resnet_haiku.md` notebooks show how to build and train deep learning models, which are known to be vulnerable to adversarial attacks.
+  - The `adversarial_training.md` notebook explicitly demonstrates the PGD attack and how to train models to be *more* robust, but implicitly highlights the vulnerability if such defenses are absent or weak.
+  - The code snippets in `adversarial_training.md` define the `pgd_attack` function, which showcases how to generate adversarial examples by iteratively perturbing inputs in the direction of the gradient of the loss function.
+  - The `loss_accuracy` function, used in multiple notebooks, is differentiable and thus allows for gradient-based attacks like PGD to be effective.
+- Security Test Case:
+  1. **Setup**: Use the code from `/code/docs/notebooks/deep_learning/resnet_flax.md` to train a ResNet model on CIFAR10, but *without* adversarial training. Let's assume we train a `ResNet18` model for a reduced number of epochs (e.g., 5 epochs) for this test to be faster. Save the trained parameters.
+  2. **Adversarial Input Generation**: Implement the `pgd_attack` function from `/code/docs/notebooks/deep_learning/adversarial_training.md`. Load the trained ResNet18 model parameters. Select a correctly classified test image from CIFAR10. Use the `pgd_attack` function with a small epsilon (e.g., epsilon=0.01) and a few iterations (e.g., maxiter=5) to generate an adversarial version of this image.
+  3. **Misclassification**: Feed both the original test image and the adversarial image to the trained ResNet18 model.
+  4. **Verification**: Observe that the original image is correctly classified, while the adversarial image, despite minimal visual difference, is misclassified by the model. This demonstrates the vulnerability to adversarial input misclassification. Print the classification results for both images and visually compare the original and adversarial images (and their difference, scaled by 1/epsilon) to highlight the subtle but effective perturbation.
