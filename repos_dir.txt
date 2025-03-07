@@ -1,9 +1,9 @@
-python django/django-fuzzerscsharp dotnet/cecil
+python django/django-fuzzers
 python django/django-localflavor
 python django/ticketbot
 python dynatrace/custom-webhook-python
 python dynatrace/dynatrace-eventdrivenansible
-python dynatrace/dynatrace-log-security-rules-checkermakefile dynatrace-innovationlab/.github
+python dynatrace/dynatrace-log-security-rules-checker
 python dynatrace/dynatrace-oneagent-ansible
 python dynatrace/extension-automated-config
 python dynatrace/insightify
