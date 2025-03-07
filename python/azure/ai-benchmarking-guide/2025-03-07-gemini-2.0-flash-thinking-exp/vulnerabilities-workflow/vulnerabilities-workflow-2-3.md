@@ -1,0 +1,54 @@
+- Vulnerability Name: Malicious Dependency Installation via Modified `install-dependencies.sh`
+- Description:
+    - A user clones the Azure AI Benchmarking Guide repository to benchmark AI workload performance on Azure.
+    - The repository provides a convenience script `install-dependencies.sh` to simplify the installation of benchmark dependencies.
+    - An attacker creates a forked repository of `Azure/AI-benchmarking-guide`.
+    - The attacker modifies the `install-dependencies.sh` script in their forked repository to include malicious commands. These commands could be anything from creating a backdoor, exfiltrating data, or compromising system configurations.
+    - The attacker social engineers or tricks a user into running the modified `install-dependencies.sh` script from the attacker's forked repository instead of the legitimate repository. This could be achieved by sending a pull request with malicious changes, or simply instructing the user to clone and run the script from the forked repository.
+    - When the user executes the compromised `install-dependencies.sh` script, the malicious commands injected by the attacker are executed on the user's system during the dependency installation process.
+    - This leads to the compromise of the user's benchmarking environment.
+- Impact:
+    - Complete compromise of the user's benchmarking environment with the privileges of the user executing the script.
+    - Potential for unauthorized access to sensitive data within the benchmarking environment, including benchmark results, configurations, and potentially cloud credentials if stored or accessible in the environment.
+    - Installation of persistent backdoors allowing for continued unauthorized access and control over the benchmarking environment.
+    - Potential for further lateral movement within the user's infrastructure if the compromised environment is connected to other systems or networks.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+    - None. The project does not implement any specific security measures to prevent users from running modified scripts or verifying the integrity of the `install-dependencies.sh` script. The project relies on the user's trust and due diligence in using the provided scripts.
+- Missing Mitigations:
+    - Script Integrity Verification: Implement a mechanism to verify the integrity of the `install-dependencies.sh` script. This could involve:
+        - Checksums: Providing checksums (like SHA256) of the official `install-dependencies.sh` script in the README or documentation, allowing users to manually verify the script's integrity before execution.
+        - Digital Signatures: Digitally signing the `install-dependencies.sh` script, though this might be complex to implement and manage for a public GitHub repository.
+    - User Education and Warnings:
+        - Add clear and prominent warnings in the README.md file, near the instructions for running `install-dependencies.sh`, about the security risks of running scripts from untrusted sources and the importance of verifying the script's content before execution.
+        - Recommend users to always review the `install-dependencies.sh` script and any other scripts downloaded from the repository before running them.
+    - Virtual Environment Recommendation: While mentioned in the `install-dependencies.sh` script itself as a warning, explicitly recommend and strongly encourage users in the README to create and use a Python virtual environment before running the installation script to isolate dependencies and limit the potential impact of any compromise.
+- Preconditions:
+    - The attacker must have the ability to create a forked copy of the `Azure/AI-benchmarking-guide` repository on GitHub.
+    - The attacker must be able to modify the `install-dependencies.sh` script within their forked repository and inject malicious commands.
+    - The attacker must successfully convince a user to clone their forked repository and execute the modified `install-dependencies.sh` script. This requires social engineering or misleading instructions.
+    - The user must have execution permissions on their system to run shell scripts and `pip` commands.
+    - The user's system must have `git`, `python3`, and `pip` installed to execute the script.
+- Source Code Analysis:
+    - File: `/code/install-dependencies.sh`
+        - The script starts with a shebang `#!/bin/bash`, indicating it's a bash script.
+        - `set -euo pipefail` is used to increase script robustness by exiting on errors.
+        - The `usage()` function defines how to display help information, which is standard practice.
+        - The script checks for command line arguments `-h` or `--help` to display usage instructions.
+        - It determines the GPU platform ('AMD' or 'NVIDIA') by checking for the existence of `rocminfo` and `nvidia-smi` commands. This logic is used to install platform-specific dependencies.
+        - It uses `pip=${1:-'python3 -m pip'}` to allow users to specify a custom `pip` command, defaulting to `python3 -m pip`. This is a potential area of concern if a user is tricked into using a malicious `pip` executable, but the primary vulnerability lies in the script itself.
+        - A warning message is printed if the script is run outside a virtual environment, which is good practice but doesn't prevent malicious actions.
+        - The `clone_repo()` function is defined to clone git repositories. This function is used to clone `triton` and `flash-attention` repositories for AMD setups. While the function itself seems safe, the URLs and commits are hardcoded in the script. An attacker could potentially try to manipulate the user into changing these URLs to point to malicious repositories, though the primary attack vector is modifying the script directly.
+        - Conditional dependency installation based on platform ('AMD' or 'NVIDIA') using `pip install -r requirements_*.txt` and direct `pip install` commands. This is where malicious commands can be injected, before or after these installation lines, or by replacing the content of the `requirements_*.txt` files in a forked repository.
+        - For AMD, the script clones and installs `triton` and `flash-attention`. This introduces further opportunities for injecting malicious code during the clone and installation process. Specifically, an attacker could modify the `clone_repo` function calls or insert commands between the clone and installation steps.
+        - Finally, it warns if `fio` is not installed, which is a helpful user提示 but not security-relevant.
+- Security Test Case:
+    - Step 1: Set up a test environment (e.g., a virtual machine or container) with `git`, `python3`, and `bash`.
+    - Step 2: Fork the official `Azure/AI-benchmarking-guide` repository on GitHub to your own account.
+    - Step 3: Clone your forked repository to the test environment: `git clone https://github.com/<your-username>/AI-benchmarking-guide.git`.
+    - Step 4: Navigate into the cloned repository directory: `cd AI-benchmarking-guide/code`.
+    - Step 5: Modify the `install-dependencies.sh` script using a text editor (like `vim` or `nano`). Add a malicious command at the beginning of the script, for example: `echo "Vulnerable!" >> /tmp/vulnerable.txt`. Ensure this line is inserted before any legitimate commands of the script to simulate early execution in a real attack scenario.
+    - Step 6: Make the script executable: `chmod +x install-dependencies.sh`.
+    - Step 7: Execute the modified script: `./install-dependencies.sh`.
+    - Step 8: After the script has run, check for the presence and content of the `/tmp/vulnerable.txt` file: `cat /tmp/vulnerable.txt`.
+    - Expected Result: The file `/tmp/vulnerable.txt` should exist and contain the text "Vulnerable!", confirming that the injected malicious command was successfully executed. This demonstrates the vulnerability where a modified `install-dependencies.sh` script can execute arbitrary commands on the user's system.
