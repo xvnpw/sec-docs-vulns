@@ -1,4 +1,3 @@
-python google/gps-babel-tower
 python google/grain
 python google/graph_distillation
 python google/grizzly
