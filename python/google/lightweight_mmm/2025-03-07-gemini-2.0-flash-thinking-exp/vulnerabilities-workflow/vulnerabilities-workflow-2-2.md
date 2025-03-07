@@ -1,0 +1,45 @@
+- Vulnerability name: Data Poisoning through Unvalidated Input Data
+- Description:
+    - An attacker crafts malicious marketing data to skew the LightweightMMM model's analysis.
+    - The attacker injects this poisoned data into the `media`, `extra_features`, or `target` parameters when calling the `fit` method to train the model.
+    - Alternatively, for manipulating predictions without retraining, poisoned data can be injected into `media` or `extra_features` parameters when calling `predict`.
+    - LightweightMMM lacks robust input validation, so the poisoned data is processed without sanitization or anomaly detection.
+    - During model fitting, poisoned data biases model parameters.
+    - When used for marketing mix modeling and budget optimization, skewed parameters lead to misleading insights and flawed budget allocation recommendations.
+    - Unaware users rely on the model's output, making suboptimal marketing decisions.
+- Impact:
+    - Flawed marketing insights and budget optimization, leading to resource misallocation.
+    - Reduced marketing effectiveness and financial losses for organizations.
+    - Loss of trust in LightweightMMM.
+- Vulnerability rank: High
+- Currently implemented mitigations:
+    - None. `preprocessing.check_data_quality` exists but is not enforced in `fit` or `predict`.
+- Missing mitigations:
+    - Input data validation in `fit` and `predict` methods, including:
+        - Data type and format validation.
+        - Range checks.
+        - Anomaly detection.
+        - Data sanitization or filtering.
+- Preconditions:
+    - Attacker's ability to manipulate input data for `fit` or `predict`. This could be through:
+        - Direct access to data pipeline.
+        - Man-in-the-middle attacks.
+        - Compromised systems/accounts.
+        - Publicly accessible instance (less likely for a library).
+- Source code analysis:
+    - `lightweight_mmm.py`: `fit` and `predict` methods lack input validation.
+    - `lightweight_mmm/utils.py`: `dataframe_to_jax` is for conversion, not validation.
+    - `lightweight_mmm/preprocessing.py`: `CustomScaler` scales data, does not validate. `check_data_quality` is not enforced.
+- Security test case:
+    1. Setup: Install `lightweight_mmm`, prepare valid dataset.
+    2. Data Poisoning - Training Phase:
+        - Introduce outliers to `media_data` or manipulate `target`.
+        - Run `LightweightMMM.fit` with poisoned data.
+        - Observe biased model parameters using `mmm.print_summary()`.
+        - Compare poisoned vs. clean model insights and optimization results.
+    3. Data Poisoning - Prediction Phase:
+        - Load pre-trained model (clean data).
+        - Prepare test dataset.
+        - Introduce poisoned data to test dataset.
+        - Run `LightweightMMM.predict` with poisoned test data.
+        - Compare poisoned vs. clean data predictions to observe misleading insights.
