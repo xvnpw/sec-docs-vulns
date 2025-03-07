@@ -1,0 +1,53 @@
+- Vulnerability Name: Man-in-the-Middle Attack during Model Download
+- Description:
+  - A user initiates the LLVM build process using CMake.
+  - The user sets the CMake flag `-DLLVM_INLINER_MODEL_PATH=download` to instruct CMake to automatically download the inliner model.
+  - CMake attempts to download the latest compatible inlining model from GitHub releases over HTTP.
+  - An attacker positioned in the network path between the user's machine and GitHub can intercept the HTTP request for the model.
+  - The attacker injects a malicious machine learning model into the network traffic, replacing the legitimate model in transit.
+  - CMake, upon receiving the response, unknowingly downloads and uses the malicious model, as it lacks integrity verification.
+  - The LLVM build process completes, incorporating the attacker-supplied malicious model into the compiler.
+  - When the user compiles code with this compromised LLVM compiler, the malicious model guides inlining decisions, potentially leading to unexpected or harmful compiler behavior.
+- Impact:
+  - Successful exploitation allows an attacker to compromise the LLVM compiler's inlining optimization process.
+  - By substituting a malicious model, the attacker gains control over how the compiler inlines code.
+  - This could result in:
+    - Introduction of security vulnerabilities in software compiled with the compromised compiler.
+    - Performance degradation of compiled binaries due to suboptimal inlining decisions dictated by the malicious model.
+    - Unexpected and potentially harmful behavior of the compiler itself, leading to build failures or miscompilations.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+  - None. The project does not implement any security measures to protect the model download process. The README documentation only describes the download functionality without mentioning any mitigations.
+- Missing Mitigations:
+  - **Enforce HTTPS for Model Download:** The project should use HTTPS instead of HTTP for downloading the model from GitHub releases. HTTPS provides encryption and ensures communication integrity, making MITM attacks significantly harder to execute.
+  - **Implement Model Integrity Verification:**  The project should implement a mechanism to verify the integrity and authenticity of the downloaded model. This could involve:
+    - **Checksum Verification:**  Distributing checksums (e.g., SHA256 hashes) of the legitimate models alongside the download instructions. CMake could then verify the downloaded model against the provided checksum.
+    - **Digital Signatures:**  Digitally signing the model files using a private key controlled by the project maintainers. CMake could then verify the signature using the corresponding public key, ensuring the model's authenticity and integrity.
+- Preconditions:
+  - **User Action:** The user must explicitly configure CMake to download the inliner model by setting `-DLLVM_INLINER_MODEL_PATH=download`.
+  - **Network Condition:** The attacker must be positioned to perform a Man-in-the-Middle (MITM) attack on the network connection between the user's machine and the GitHub releases server.
+  - **Vulnerable Network:** The network connection must be susceptible to MITM attacks, typically due to the use of unencrypted HTTP for downloads.
+- Source Code Analysis:
+  - The vulnerability is documented in `/code/README.md` file, under the section "Pretrained models":
+    -  "When building LLVM, there is a flag `-DLLVM_INLINER_MODEL_PATH` which you may set to the path to your inlining model. If the path is set to `download`, then cmake will download the most recent (compatible) model from github to use."
+  - The `README.md` file indicates that the CMake build process with `-DLLVM_INLINER_MODEL_PATH=download` triggers a model download from GitHub.
+  - The provided documentation does not describe any code snippets related to the download process itself, but the description is sufficient to identify the vulnerability.
+  - It is inferred that the CMake configuration or associated scripts are responsible for initiating an HTTP download from GitHub releases when the `-DLLVM_INLINER_MODEL_PATH=download` flag is set.
+  - Without examining the CMake scripts, it is impossible to confirm the exact code responsible for the download. However, the vulnerability description in `README.md` clearly outlines the attack vector.
+- Security Test Case:
+  - **Environment Setup:**
+    - Set up a local network environment where you can intercept HTTP traffic (e.g., using a tool like `mitmproxy` or `Wireshark` and `iptables` or similar network manipulation tools).
+    - Configure a proxy server (e.g., `mitmproxy`) to intercept HTTP requests and responses.
+  - **LLVM Build Configuration:**
+    - On a test machine within the controlled network, prepare a build environment for LLVM.
+    - Configure CMake for LLVM build, specifically including the flag `-DLLVM_INLINER_MODEL_PATH=download`.
+  - **MITM Attack Simulation:**
+    - Configure the proxy server to intercept requests to GitHub releases for the inliner model.
+    - Prepare a malicious machine learning model file to replace the legitimate model.
+    - Configure the proxy server to replace the legitimate model file in the HTTP response with the prepared malicious model file.
+  - **Verification:**
+    - Initiate the CMake configuration process on the test machine.
+    - Observe the network traffic to confirm that the model is being downloaded over HTTP and that the proxy server is intercepting the traffic.
+    - After the CMake configuration completes, examine the LLVM build directory to verify that the malicious model file is present instead of the legitimate one. You could compare file hashes or sizes if you have access to the legitimate model.
+    - Compile a simple test program using the newly built LLVM compiler.
+    - Analyze the assembly or binary output of the compiled program to verify that the inlining decisions are influenced by the malicious model. This might require comparing the output with a build using a legitimate model or the default inliner.
