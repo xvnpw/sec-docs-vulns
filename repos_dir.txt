@@ -1,4 +1,3 @@
-python aws/lightsail-setup-instance-https
 python aws/porting-advisor-for-graviton
 python aws/sagemaker-chainer-container
 python aws/sagemaker-core
