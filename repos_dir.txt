@@ -1,4 +1,3 @@
-python google/meridian
 python google/mesop
 python google/meta_tagger
 python google/metrax
