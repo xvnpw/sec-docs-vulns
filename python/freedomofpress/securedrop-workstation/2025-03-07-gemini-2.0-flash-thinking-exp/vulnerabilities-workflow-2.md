@@ -1,0 +1,117 @@
+### Vulnerability List
+
+- **Vulnerability Name:** MIME Type Processing Vulnerability in Disposable Viewer VM
+
+- **Description:**
+  1. An attacker crafts a malicious submission file designed to exploit a vulnerability in a document viewer application (e.g., Evince, LibreOffice) within the `sd-viewer` disposable VM or by crafting a malicious document, for example, disguising an executable script as a seemingly benign document type (e.g., a PDF).
+  2. The journalist receives this document as a SecureDrop submission and attempts to open it using the SecureDrop Client in the `sd-app` VM. The journalist logs into the SecureDrop Journalist Interface via the SecureDrop Client in the `sd-app` VM and downloads and attempts to view the malicious document.
+  3. The SecureDrop Client, configured to open files in disposable VMs, correctly launches a disposable VM based on the `sd-viewer` template, using `xdg-open` to open the document.
+  4. Due to a vulnerability in the document viewer application within the `sd-viewer` template, or due to insecure MIME type configurations within `sd-viewer` or flawed MIME type detection or handling within the `sd-viewer` template, processing the malicious submission file triggers the vulnerability. A potentially unsafe application (e.g., a web browser or a script interpreter) might be launched to handle the malicious document instead of a safe document viewer like Evince or LibreOffice. Instead of being opened by a safe document viewer (like Evince for PDF), the file is launched by a different application, such as a shell interpreter or a less secure application, within the disposable `sd-viewer` VM.
+  5. This vulnerability exploitation occurs within the disposable VM environment. If an unsafe application is launched, it could execute embedded malicious code within the document, leading to code execution within the disposable `sd-viewer` VM. This unintended application execution bypasses the intended security measures of the `sd-viewer` disposable VM, potentially allowing the attacker to execute arbitrary code within the disposable VM.
+
+- **Impact:**
+  - **High**. Successful exploitation could lead to arbitrary code execution within the `sd-viewer` disposable VM. Successful MIME type spoofing allows arbitrary code execution within the `sd-viewer` disposable VM.
+  - **Direct Impact:** Successful exploitation could lead to arbitrary code execution within the `sd-viewer` disposable VM.
+  - **Secondary Impact:** Depending on the nature of the vulnerability and attacker's payload, it could lead to:
+    - **Compromise of Decrypted Submission Content:** The attacker could gain access to the decrypted submission data being viewed in the disposable VM. Compromise of `sd-viewer` allows reading the decrypted submission directly.
+    - **Disposable VM Escape:** The attacker might be able to escape the disposable VM sandbox and potentially gain access to the `sd-app` VM, which contains all decrypted submissions and is considered a higher-value target. Further exploitation could lead to compromising the `sd-app` VM and gaining access to all decrypted submissions.
+    - **Information Disclosure:** Sensitive information from the decrypted submission or the disposable VM environment could be exfiltrated.
+    - **Potential data exfiltration** from the isolated `sd-viewer` VM, although limited by its network isolation and disposable nature.
+
+- **Vulnerability Rank:** **High**
+
+- **Currently Implemented Mitigations:**
+  - **Disposable VMs for Document Viewing (`sd-viewer`):** The SecureDrop Workstation architecture relies heavily on disposable VMs (`sd-viewer`) for opening and processing submission files. Documents are opened in disposable VMs (`sd-viewer`), limiting the persistence of any compromise. This is intended to isolate potential exploits within a short-lived, non-persistent VM, limiting the attack surface and preventing persistence on the main `sd-app` VM. This is configured through Qubes OS and SecureDrop Client settings, as seen in `test_app.py` and `test_viewer.py` which test the `open-in-dvm.desktop` configuration.
+  - **Network Isolation of `sd-viewer`:** `sd-viewer` VMs are networkless, preventing direct external communication for data exfiltration.
+  - **AppArmor Profiles:** AppArmor profiles are enforced on document viewer applications within `sd-viewer` VM, as validated by `test_viewer.py` in `test_enforced_apparmor_profiles`. AppArmor profiles are enforced for document viewers like Evince and Totem in `sd-viewer` (`tests/test_viewer.py`), restricting their capabilities. This aims to restrict the capabilities of these applications, limiting the potential damage from exploits. AppArmor profiles are enforced for document viewers like Evince and Totem in `sd-viewer` (`test_viewer.py`), limiting their capabilities even if exploited.
+  - **MIME Type Handling Service (`securedrop-mime-handling`):** The project implements a `securedrop-mime-handling` service, intended to enforce secure MIME type handling and application associations. This service is active in `sd-app`, `sd-proxy`, and `sd-viewer` VMs, as confirmed by tests (`test_app.py`, `test_proxy_vm.py`, `test_viewer.py`). The `securedrop-mime-handling` service, tested in `test_viewer.py` and `test_proxy_vm.py`, is implemented to ensure that files are opened with appropriate applications within disposable VMs based on their MIME types.
+  - **`mimeapps.list` Configuration:** The project configures MIME type associations in `sd-viewer` to default to `open-in-dvm.desktop` which is intended to use safe viewers (`tests/test_viewer.py`, `tests/test_app.py`, `tests/test_proxy_vm.py`, `tests/test_sd_devices.py`). The `mimeapps.list` files in `sd-app`, `sd-proxy`, and `sd-viewer` define default applications for various MIME types, aiming to ensure documents are opened with designated viewers within `sd-viewer` disposable VMs. Tests (`test_app.py`, `test_proxy_vm.py`, `test_viewer.py`) verify these configurations.
+  - **Mailcap Hardening:** Mailcap is hardened to prevent fallback to potentially insecure mailcap rules for application selection, as tested in `test_viewer.py`, `test_app.py`, and `test_proxy_vm.py` using `test_mailcap_hardened`. Mailcap is disabled in `sd-viewer`, preventing fallback to potentially unsafe mailcap handlers (`tests/test_viewer.py`, `tests/test_app.py`, `tests/test_proxy_vm.py`, `tests/test_sd_devices.py`).
+
+- **Missing Mitigations:**
+  - **Vulnerability Scanning and Patching of Document Viewers:** While disposable VMs and AppArmor provide containment, proactive vulnerability management for document viewers (Evince, LibreOffice, Totem, etc.) within the `sd-viewer` template is crucial. Regularly scanning these applications for known vulnerabilities and applying security patches would reduce the likelihood of successful exploitation.
+  - **Robust MIME Type Detection:** Relying solely on file extensions or basic MIME type detection might be insufficient to prevent spoofing. More robust content-based MIME type detection mechanisms could be considered, potentially using tools like `file --mime-type` with additional validation.
+  - **Strict Application Whitelisting/Blacklisting:** Instead of relying on default MIME type associations, a stricter approach could involve whitelisting only explicitly approved document viewer applications within `sd-viewer` and preventing execution of any other applications, regardless of the detected MIME type.
+  - **Enforced Application for Document Viewing:** Instead of relying on `xdg-open` and MIME type configurations, the SecureDrop Client could enforce the use of a specific, hardened document viewer application for all document types, regardless of MIME type.
+  - **Sandboxing within Disposable VMs:** Further sandboxing mechanisms within the disposable VMs, beyond AppArmor profiles, could be considered. Technologies like seccomp or stronger containerization within the disposable VM could add another layer of defense, making it harder for an attacker to escape the disposable VM even if a document viewer vulnerability is exploited. While the disposable VM provides isolation, further sandboxing technologies (like seccomp or more restrictive AppArmor profiles) within the `sd-viewer` disposable VM could further limit the impact of a compromised document viewer.
+  - **Input Sanitization/Strict Parsing:** Implementing stricter input sanitization and parsing within the document viewers themselves (if feasible and without breaking functionality) could help prevent certain types of exploits. However, this is a complex mitigation and might be better addressed by using inherently safer document processing libraries or applications if available.
+  - **Regular TemplateVM Updates:** While the `sdw-updater` is in place to update TemplateVMs, ensuring a very aggressive update schedule for `sd-viewer` template, specifically targeting security updates for document processing software, would be a significant mitigation.
+  - **Strict MIME Type Validation and Sanitization:** The project relies on configuration files to define safe MIME type handlers. There is no explicit validation or sanitization of MIME types to ensure that attacker-controlled MIME types cannot bypass these configurations.
+
+- **Preconditions:**
+  1. The attacker must be able to submit a malicious file through the SecureDrop source interface. The attacker needs to successfully submit a malicious document to the SecureDrop instance. An attacker needs to be able to upload a malicious document to a SecureDrop instance.
+  2. The journalist must download the malicious submission and attempt to view the file within the SecureDrop Workstation environment. The journalist must download and attempt to open this submission using the SecureDrop Client in the `sd-app` VM. A journalist must download and attempt to view this malicious document using the SecureDrop Workstation.
+  3. A vulnerability must exist in one of the document viewer applications installed in the `sd-viewer` template VM.
+  4. The malicious submission file must be crafted to successfully trigger this vulnerability when processed by the vulnerable document viewer. The MIME type of the malicious document must be such that it triggers the launch of an unsafe application in `sd-viewer` due to misconfiguration or bypass of MIME handling settings.
+  5. The `sd-viewer` disposable VM must be launched to open the document.
+
+- **Source Code Analysis:**
+  - **File: `/code/tests/test_viewer.py` and `/code/tests/test_app.py`, `/code/tests/test_proxy_vm.py`, `/code/tests/test_sd_devices.py`**
+    - These test files demonstrate the project's awareness of MIME type handling and disposable VMs. These tests verify the presence of `mimeapps.list` and the correct default applications for MIME types using `xdg-mime query default`. They also check for the `securedrop-mime-handling` service. They include tests for:
+      - Installation of viewer packages (Evince, LibreOffice, Totem) in `sd-viewer` (`test_viewer_evince_installed`, `test_sd_viewer_libreoffice_installed`).
+      - Configuration of MIME type associations to `open-in-dvm.desktop` in `sd-app` and `sd-proxy` (`test_mimeapps` in `test_app.py` and `test_proxy_vm.py`).
+      - Verification that `sd-viewer` is used as the DispVM for opening files (`test_open_in_dvm_desktop` in `test_app.py` and `test_sd_devices.py`).
+      - Enforcement of AppArmor profiles for viewer applications in `sd-viewer` (`test_enforced_apparmor_profiles` in `base.py` and used in `test_viewer.py`).
+      - Hardening of mailcap to avoid insecure application launching (`test_mailcap_hardened` in `base.py` and used in `test_viewer.py`, `test_app.py`, `test_proxy_vm.py`, `test_sd_devices.py`).
+      - Activation of `securedrop-mime-handling` service (`test_mimetypes_service` in `test_viewer.py`, `test_sd_proxy_config` and `test_sd_proxy_dvm` in `test_vms_exist.py`).
+    - These tests confirm that the intended security mechanisms are in place. However, they do not prevent vulnerabilities within the document viewers themselves.
+  - **File: `/code/securedrop_salt/mime-handling.sls` (Not provided in PROJECT FILES, but assumed to exist based on tests)**
+    - This file (hypothetically) would contain the SaltStack configuration that sets up the MIME type handling service, configures `open-in-dvm.desktop`, and enforces AppArmor profiles. Analysis of this file (if available) would be needed to understand the specific MIME types handled, the applications configured, and the details of the AppArmor profiles.
+  - **File: `/code/files/sdw-admin.py` and `/code/securedrop_salt/*.sls`, `securedrop_salt/sd-viewer.sls`, `securedrop_salt/sd-app.sls`, `securedrop_salt/sd-proxy.sls`, `securedrop_salt/sd-viewer/mime.sls`**
+    - These files manage the overall system provisioning and configuration, including VM creation, service setup, and applying Salt states. These Salt states likely configure the `mimeapps.list` and enable the `securedrop-mime-handling` service. `files/sdw-admin.py` This script applies Salt states, including those related to MIME handling. They are responsible for ensuring that the `sd-viewer` VM is correctly configured as a disposable VM template and that the MIME handling service is enabled.
+  - **`tests/base.py`:** The `mailcap_hardened()` function in `base.py` is used in tests to ensure mailcap rules are disabled as a fallback for MIME type handling. This is a positive security measure.
+  - **`tests/vars/sd-viewer.mimeapps`, `tests/vars/sd-devices.mimeapps` and the tests `tests/test_viewer.py`, `tests/test_app.py`, `tests/test_proxy_vm.py`, `tests/test_sd_devices.py`:** indicate that MIME type handling is configured via `mimeapps.list` files and tested.
+  - **`test_viewer.py` - `test_mime_types` function:** This test reads a `sd-viewer.mimeapps` file and asserts that `xdg-mime query default <mime_type>` returns the expected application. This confirms that MIME types are being configured.
+  - **`test_app.py`, `test_proxy_vm.py`, `test_sd_devices.py` - `test_mimeapps` function:** These tests also check `mimeapps.list` and use `xdg-mime query default` to verify the default application for different MIME types. They assert that the default application is `open-in-dvm.desktop`.
+  - **`test_app.py`, `test_proxy_vm.py`, `test_sd_devices.py` - `test_open_in_dvm_desktop` function:** These tests verify the content of `open-in-dvm.desktop`, ensuring it uses `qvm-open-in-vm --view-only @dispvm:sd-viewer %f` to open files in disposable `sd-viewer` VMs in view-only mode.
+  - **`test_viewer.py` - `test_mimetypes_symlink`:** This test checks for a symlink for `mimeapps.list`, indicating a custom configuration might be in place.
+  - **`test_viewer.py` - `test_mailcap_hardened` and `test_app.py`, `test_proxy_vm.py`, `test_sd_devices.py` - `test_mailcap_hardened`:** These tests ensure mailcap is hardened by checking for a rule that disables mailcap usage and logs a message if it's used.
+  - **No specific code in the provided files directly implements MIME type detection or robust application launching decisions based on MIME types.** The project relies on the underlying OS (Debian and Qubes OS) and standard tools like `xdg-mime` and `run-mailcap` (which is intentionally hardened against).
+
+    - **Visualization:**
+        ```
+        [sd-app VM] --> (Open Document) --> [DispVM: sd-viewer] --> (MIME Type Detection & App Launch) --> [Application (Expected Viewer OR Spoofed App)]
+        ```
+        ```
+        SecureDrop Client (sd-app) --> xdg-open --> MIME type config (mimeapps.list in sd-viewer) --> Application in sd-viewer (potentially unsafe) --> Malicious Document
+        ```
+        The vulnerability lies in the "(MIME Type Detection & App Launch)" step within the `sd-viewer` disposable VM and in MIME type config (mimeapps.list in sd-viewer). If this step is flawed, it can lead to launching the "Spoofed App" or "potentially unsafe Application" instead of the "Expected Viewer."
+
+    - **Code Flow:**
+        - Journalist clicks to view a document in SecureDrop Client (`sd-app`).
+        - SecureDrop Client uses `xdg-open` to open the document.
+        - `xdg-open` in `sd-app` (configured to use `open-in-dvm.desktop`) redirects the request to `qvm-open-in-vm`.
+        - `qvm-open-in-vm` launches a disposable VM based on `sd-viewer` and executes `xdg-open` within it.
+        - `xdg-open` in `sd-viewer` consults `mimeapps.list` to determine the default application based on the document's MIME type.
+        - If the MIME type is maliciously crafted or misconfigured, `xdg-open` might launch an unsafe application (e.g., if an attacker crafts a document with a MIME type associated with a web browser or script interpreter).
+        - The unsafe application executes the malicious document, leading to code execution.
+
+- **Security Test Case:**
+  1. **Setup:**
+     - Set up a SecureDrop Workstation environment according to the project's documentation. Set up a SecureDrop Workstation development environment.
+     - Identify the document viewer applications installed in the `sd-viewer` template VM (e.g., Evince, LibreOffice Writer).
+     - Find a known vulnerability (CVE) in one of these document viewers that can be triggered by a malicious document. For example, research recent CVEs for Evince or LibreOffice related to PDF or document processing. Identify a MIME type that is associated with a potentially unsafe application in a standard Debian system (e.g., a MIME type that might trigger a web browser or a script interpreter if misconfigured). For example, you could try to exploit MIME types related to shell scripts or HTML files if they are not correctly handled by the intended document viewers.
+  2. **Craft Malicious Submission:**
+     - Create a malicious document (e.g., a specially crafted PDF or DOCX file) designed to trigger the identified CVE in the chosen document viewer. Publicly available exploit PoCs or vulnerability details can be used to craft this file. Create a malicious executable script (e.g., `evil.sh`) that, when executed, attempts to communicate back to the attacker (e.g., by creating a file in `/tmp` visible from dom0 via Qubes shared folders or by attempting DNS exfiltration – though network access is supposed to be disabled, side channels might exist). Create a seemingly benign document file, for example, a PDF (`benign.pdf`). Embed or append the malicious script `evil.sh` to `benign.pdf` in a way that might trick MIME type detection into identifying it as a shell script or another executable type, or in a way that exploits a vulnerability in document viewers when processing such hybrid files. For instance, create a PDF that also contains an embedded shell script and rename it to have a `.pdf` extension, but craft it to be potentially misidentified. Create a malicious document that exploits a vulnerability in the identified unsafe application or simply attempts to execute arbitrary commands (e.g., using shell script MIME type with embedded commands or a crafted HTML file with Javascript).
+  3. **Submit Malicious File:**
+     - As an attacker, submit the crafted malicious document through the SecureDrop source interface. Encrypt and submit this crafted file as a SecureDrop submission. As an attacker, upload the malicious document to the SecureDrop source interface.
+  4. **Journalist Workflow:**
+     - As a journalist, log into the SecureDrop Journalist Interface using the SecureDrop Client in the `sd-app` VM. As a journalist, log in to the SecureDrop Journalist Interface using the SecureDrop Client in `sd-app`. In the `sd-app` VM, use the SecureDrop Client to download the submission containing the crafted file.
+     - Download the malicious submission. Download the submission containing the malicious document.
+     - Attempt to view the downloaded submission file using the SecureDrop Client. This should automatically open the file in a disposable VM based on `sd-viewer`. Attempt to open the downloaded file within the `sd-app` VM. This will trigger the opening of the file in a disposable `sd-viewer` VM. Attempt to view the malicious document by clicking on it in the SecureDrop Client.
+  5. **Observe and Verify:**
+     - Monitor the `sd-viewer` disposable VM. Observe the behavior within the disposable `sd-viewer` VM.
+     - If the vulnerability is successfully exploited, observe the expected behavior based on the CVE details. This might include: **If vulnerable:** Observe if the malicious script `evil.sh` executes within the `sd-viewer` disposable VM. Check for indicators of execution, such as:
+       - Unexpected application crash in `sd-viewer`.
+       - Arbitrary code execution within `sd-viewer` (e.g., try to create a file in `/tmp` within the disposable VM, or attempt network communication if possible, though `sd-viewer` should be networkless). Creation of the attacker-defined file in `/tmp` (journalist can check this in dom0 after the test).
+       - Attempted DNS requests from the `sd-viewer` VM (attacker can monitor for these).
+       - If aiming for VM escape, attempt to interact with `sd-app` VM from within the exploited `sd-viewer` disposable VM (e.g., using `qvm-run` if escape is possible). Specifically, check if an application other than the intended document viewers (Evince, LibreOffice) is launched to handle the document. Ideally, have the malicious document attempt to write a log message to `/tmp/vulnerability_confirmed` within the `sd-viewer` disposable VM. After attempting to view the document, check if this file exists within the disposable VM to confirm code execution. You can use `qvm-run --disp sd-viewer-disposable 'ls /tmp/vulnerability_confirmed'` from dom0 to check for the file after attempting to view the document.
+       - **If mitigated:** Verify that the crafted file is opened by the expected document viewer application (e.g., Evince for PDF) within `sd-viewer` and that the malicious script does not execute, and no indicators of compromise are observed.
+  6. **Analyze Logs:**
+     - Check logs in `sd-log` VM and dom0 for any error messages, crash reports, or unusual activity related to the document viewer or disposable VM execution.
+  7. **Expected Result (Vulnerable Scenario):** The malicious script executes in the `sd-viewer` disposable VM, demonstrating successful MIME type spoofing and arbitrary code execution within the disposable environment. If the test is successful, the file `/tmp/vulnerability_confirmed` should exist within the disposable `sd-viewer` VM, indicating code execution. Additionally, observing an unexpected application being launched to handle the document would further confirm the vulnerability related to insecure MIME type handling.
+  8. **Expected Result (Mitigated Scenario):** The crafted file is safely opened by the intended document viewer in `sd-viewer`, and no malicious code execution occurs.
+
+If the test case successfully demonstrates code execution or VM escape from the `sd-viewer` disposable VM after opening the malicious document, it validates the MIME Type Processing Vulnerability.
+
+This vulnerability highlights the inherent risks of relying on complex document processing software, even within sandboxed environments. Continuous monitoring for vulnerabilities in document viewers and proactive patching are essential mitigations for this type of risk.
