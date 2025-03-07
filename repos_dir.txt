@@ -1,4 +1,3 @@
-python google/kernel-research
 python google/kernel-sanitizers
 python google/keyword_factory
 python google/langfun
