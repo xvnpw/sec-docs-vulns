@@ -1,4 +1,3 @@
-python azure/msrest-for-python
 python azure/openapi-mocker
 python azure/osdu-data-load-tno
 python azure/partnercenter-cli-extension
