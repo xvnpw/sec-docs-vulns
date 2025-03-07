@@ -1,4 +1,3 @@
-python azure/feast-azure
 python azure/gitops-connector
 python azure/gpt-rag-agentic
 python azure/gpt-rag-ingestion
