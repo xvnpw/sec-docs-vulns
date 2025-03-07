@@ -1,4 +1,3 @@
-python azure/azure-baremetalinfrastructure-cli-extension
 python azure/azure-batch-cli-extensions
 python azure/azure-cleanroom
 python azure/azure-cli-dev-tools
