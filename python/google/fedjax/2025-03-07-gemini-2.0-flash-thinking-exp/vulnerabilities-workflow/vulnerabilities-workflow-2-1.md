@@ -1,0 +1,32 @@
+- Vulnerability Name: Data Poisoning via Compromised Datasets
+- Description: The `build_dataset.sh` scripts download datasets from external URLs using `wget` and process them. If these URLs are compromised or subject to man-in-the-middle attacks, malicious datasets can be downloaded and processed. This can poison the training data used in FedJAX simulations.
+- Impact: An attacker can inject malicious data into the datasets used for federated learning simulations. This can lead to data poisoning attacks, compromising the integrity of the trained models.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations: None in the `build_dataset.sh` scripts to verify the integrity of downloaded files beyond basic TLS provided by `wget`.
+- Missing Mitigations:
+    - Implement integrity checks for downloaded files using checksums (e.g., SHA256) against known good values.
+    - Use HTTPS for all downloads to prevent man-in-the-middle attacks.
+    - Implement input validation in the Python scripts (`data_to_sqlite.py`) to detect and reject potentially malicious data.
+- Preconditions:
+    - Attacker compromises the external URLs where datasets are downloaded from.
+    - Attacker performs a man-in-the-middle attack during dataset download.
+    - Vulnerabilities in the Python processing scripts allow malicious data to be injected without detection.
+- Source Code Analysis:
+    - `fedjax/datasets/scripts/cornell_movie_dialogs/build_dataset.sh`:
+        - Uses `wget` to download `cornell_movie_dialogs_corpus.zip` from `http://www.cs.cornell.edu/~cristian/data/cornell_movie_dialogs_corpus.zip`.
+        - Unzips the downloaded file.
+        - Calls `python3 data_to_sqlite.py` to process the data.
+    - `fedjax/datasets/scripts/sent140/build_dataset.sh`:
+        - Uses `wget --no-check-certificate` to download `trainingandtestdata.zip` from `http://cs.stanford.edu/people/alecmgo/trainingandtestdata.zip`. The `--no-check-certificate` flag weakens security and should be removed.
+        - Unzips the downloaded file.
+        - Calls `python3 data_to_sqlite.py` to process the data.
+    - In both scripts, there is no verification of the downloaded zip files or the extracted content beyond the TLS provided by `wget` (except for the `--no-check-certificate` in `sent140` which weakens it). The Python scripts `data_to_sqlite.py` perform normalization but lack robust input validation against malicious data.
+- Security Test Case:
+    1. Setup:
+        - Host a malicious zip file at a URL. This zip file should contain a modified dataset designed to poison a federated learning model.
+        - Modify `fedjax/datasets/scripts/cornell_movie_dialogs/build_dataset.sh` to download the malicious zip file instead of the original one.
+    2. Execution:
+        - Run `build_dataset.sh` with appropriate flags to download the malicious dataset.
+        - Run a FedJAX federated learning simulation using the generated dataset.
+    3. Verification:
+        - Observe the trained model's behavior. If the model's performance is significantly degraded or biased in a way consistent with the injected malicious data, it confirms the vulnerability. For example, check accuracy on a clean test set or bias towards a specific class.
