@@ -1,4 +1,3 @@
-python aws/sagemaker-chainer-container
 python aws/sagemaker-core
 python aws/sagemaker-experiments
 python aws/sagemaker-huggingface-inference-toolkit
