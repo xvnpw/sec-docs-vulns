@@ -1,4 +1,3 @@
-python azure/deploy-to-azure-cli-extension
 python azure/dev-box-images
 python azure/diskinfo
 python azure/elenchus
