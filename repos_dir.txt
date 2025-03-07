@@ -1,4 +1,3 @@
-python azure/azure-kusto-python
 python azure/azure-kusto-splunk
 python azure/azure-llm-fine-tuning
 python azure/azure-machine-learning-adoption-framework
