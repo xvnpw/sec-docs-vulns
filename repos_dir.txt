@@ -1,4 +1,3 @@
-python google/feedloader
 python google/ffn
 python google/fhir-py
 python google/fiddle
