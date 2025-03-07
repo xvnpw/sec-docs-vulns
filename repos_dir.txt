@@ -1,4 +1,3 @@
-python facebookincubator/submitit
 python freedomofpress/securedrop
 python freedomofpress/securedrop-builder
 python freedomofpress/securedrop-client
