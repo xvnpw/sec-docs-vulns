@@ -1,4 +1,3 @@
-python dynatrace/oneagent-sdk-for-python
 python facebook/chisel
 python facebook/dotslash-publish-release
 python facebook/facebook-python-business-sdk
