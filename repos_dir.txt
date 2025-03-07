@@ -1,4 +1,3 @@
-python azure/aml-run
 python azure/aml-workspace
 python azure/aoai-apim
 python azure/ap5gc-vendor-tools
