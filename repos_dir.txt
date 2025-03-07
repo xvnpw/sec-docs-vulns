@@ -1,4 +1,3 @@
-python aws/sagemaker-hyperpod-cli
 python aws/sagemaker-hyperpod-recipes
 python aws/sagemaker-hyperpod-training-adapter-for-nemo
 python aws/sagemaker-image-builder
