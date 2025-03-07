@@ -1,4 +1,3 @@
-python azure/azure_modules
 python azure/azure_preview_modules
 python azure/azure-baremetalinfrastructure-cli-extension
 python azure/azure-batch-cli-extensions
