@@ -1,4 +1,3 @@
-python azure/azure-functions-python-worker
 python azure/azure-hanaonazure-cli-extension
 python azure/azure-iot-cli-extension
 python azure/azure-iot-connection-diagnostic-tool
