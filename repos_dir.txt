@@ -1,4 +1,3 @@
-python azure/cookiecutter-azure-iot-edge-module
 python azure/co-op-translator
 python azure/cosmos-tls-scanner
 python azure/costmanagement-to-kusto
