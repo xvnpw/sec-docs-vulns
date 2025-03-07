@@ -1,4 +1,3 @@
-python google/caliban
 python google/capirca
 python google/ceviche-challenges
 python google/ci_edit
