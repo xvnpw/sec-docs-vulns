@@ -1,4 +1,3 @@
-python google/bi-tempered-loss
 python google/blockbuster
 python google/brandometer
 python google/break-a-scene
