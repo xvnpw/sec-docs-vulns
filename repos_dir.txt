@@ -1,4 +1,3 @@
-python mapbox/cncc
 python mapbox/cogdumper
 python mapbox/fio-area
 python mapbox/geojson-quirks
