@@ -1,4 +1,3 @@
-python google/slang-gaussian-rasterization
 python google/slo-generator
 python google/space
 python google/spatial-media
