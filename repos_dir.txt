@@ -1,4 +1,3 @@
-python google/trimmed_match
 python google/turbinia
 python google/uafcs
 python google/uis-rnn
