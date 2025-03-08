@@ -1,4 +1,3 @@
-python google/werewolf_arena
 python google/wide_bnn_sampling
 python google/xarray-beam
 python google/xarray-tensorstore
