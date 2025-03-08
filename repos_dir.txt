@@ -1,4 +1,3 @@
-python google/vertex-ai-nas
 python google/vertex-pipelines-boilerplate
 python google/vimdoc
 python google/vizier
