@@ -1,4 +1,3 @@
-python grafana/webinar-opentelemetry-getting-started
 python hyperledger/fabric-sdk-py
 python jitsi/jitsi-psnr
 python jitsi/jiwer
