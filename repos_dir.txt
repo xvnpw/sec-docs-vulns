@@ -1,4 +1,3 @@
-python mapbox/watchbot-progress-py
 python mapbox/xt
 python matomo-org/matomo-icons
 python matomo-org/matomo-log-analytics
