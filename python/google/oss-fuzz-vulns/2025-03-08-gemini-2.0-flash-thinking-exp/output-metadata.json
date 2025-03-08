@@ -1,0 +1,14 @@
+{
+  "repo_url": "google/oss-fuzz-vulns",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/google/oss-fuzz-vulns --recursion-limit 100",
+  "start_datetime": "2025-03-08T00:03:49Z",
+  "end_datetime": "2025-03-08T01:10:55Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "8267838",
+  "mode": "dir"
+}
