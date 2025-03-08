@@ -1,0 +1,29 @@
+- Vulnerability name: Social Engineering through Developer Advocate Impersonation
+- Description:
+  - Step 1: An attacker gains access to the PROJECT FILES repository, which is publicly accessible.
+  - Step 2: The attacker analyzes the content, including files like `/code/transcripts/2024-12-16T23:12:08Z-grafana-campfire-grafana-community-call-december-2024.md` and `/code/transcripts/2024-05-22T08:00:35Z-beginners-guide-all-about-alert-list-visualization-grafana.md`, to identify Grafana Developer Advocates and Engineers. This includes names (e.g., Marie Cruz, Nicole van der Hoeven, David Allen, David Kaltschmidt, Carl Bergquist, Mat Ryer, Ronald), their roles (Developer Advocate, Senior Engineer, Grafana Champion), and their projects (e.g., Adobo and Avocados, Café con Grafana, Grafana Office Hours, Grafana Campfire, Business Suit plugins).
+  - Step 3: The attacker uses this information to create a credible impersonation profile, such as a fake social media account or email address, mimicking a Grafana Developer Advocate or Engineer.
+  - Step 4: The attacker contacts Grafana users or the wider community, leveraging the gathered information to appear legitimate and build trust. This could be done via email, social media, or forums like the Grafana Community Forums or public Slack channels mentioned in the transcripts (e.g., "gra campfire").
+  - Step 5: The attacker initiates a social engineering attack, such as phishing for credentials, sensitive information, or access to Grafana systems, by leveraging the impersonated identity.
+- Impact:
+  - Successful impersonation can lead to social engineering attacks against Grafana users and the community.
+  - Attackers may be able to obtain sensitive information, credentials, or unauthorized access to systems.
+  - This can damage Grafana Labs' reputation and erode user trust.
+- Vulnerability rank: Medium
+- Currently implemented mitigations:
+  - No specific mitigations are implemented within the PROJECT FILES repository itself, as it is primarily a documentation and resource collection.
+- Missing mitigations:
+  - Add a security warning to the repository's README.md, explicitly stating the risk of social engineering attacks through impersonation of Developer Advocates and Engineers and advising users to independently verify the identity of anyone claiming to be a Grafana Labs representative.
+  - Grafana Labs should reinforce security awareness training for their Developer Advocates and Engineers, specifically addressing the risks associated with publicly available project information and social engineering tactics.
+- Preconditions:
+  - The PROJECT FILES repository is publicly accessible.
+  - Attackers have the motivation and resources to conduct social engineering attacks targeting Grafana users.
+- Source code analysis:
+  - Not applicable. This vulnerability is informational and does not involve exploitable code within the repository.
+- Security test case:
+  - Step 1: Identify a Grafana Developer Advocate or Engineer from the PROJECT FILES, for example, Ronald from `/code/transcripts/2024-12-16T23:12:08Z-grafana-campfire-grafana-community-call-december-2024.md` or Marie Cruz from `/code/transcripts/2024-05-22T08:00:35Z-beginners-guide-all-about-alert-list-visualization-grafana.md`.
+  - Step 2: Using information from the PROJECT FILES, create a fake profile (e.g., LinkedIn, Twitter) or email address that convincingly impersonates the identified Developer Advocate or Engineer, referencing projects like "Adobo and Avocados", "Grafana Office Hours", or "Grafana Campfire".
+  - Step 3: Using the fake profile, contact Grafana community members (e.g., via Grafana Community Forums or social media platforms).
+  - Step 4: Engage in conversation, building rapport by referencing public information from the PROJECT FILES and Grafana community activities, such as mentioning participation in "Grafana Campfire" or knowledge of "Business Suit plugins".
+  - Step 5: Attempt to initiate a social engineering attack, such as requesting sensitive information or login credentials, under the guise of legitimate communication from a Grafana Labs representative (e.g., claiming to need access for troubleshooting or to offer exclusive early access to a new feature).
+  - Expected result: Observe if the target user exhibits trust and willingness to comply with requests based on the perceived legitimacy of the impersonator. A successful test would demonstrate that the information in PROJECT FILES can be used to create a credible impersonation for social engineering purposes.

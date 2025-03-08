@@ -1,0 +1,19 @@
+- Vulnerability name: Phishing Attack via Impersonation of Grafana Developer Advocate
+- Description: An attacker could attempt a phishing attack by impersonating a Grafana Developer Advocate and targeting individuals who might contribute to Grafana content or participate in developer advocacy initiatives, aiming to steal credentials or sensitive information under the guise of content collaboration or project participation.
+- Impact: Successful phishing attacks can lead to the compromise of user credentials, potentially granting attackers unauthorized access to Grafana resources, sensitive information, or the ability to spread misinformation within the Grafana community. This could damage the reputation of Grafana Labs and compromise the security of individuals and projects associated with Grafana developer advocacy.
+- Vulnerability rank: High
+- Currently implemented mitigations: No specific technical mitigations are implemented within this repository itself as it is primarily documentation. General awareness of phishing risks might be assumed for individuals involved in developer advocacy.
+- Missing mitigations:
+    - Implement clear guidelines and warnings about phishing risks within the repository and related communication channels.
+    - Educate Grafana Developer Advocates and community members on how to identify and report phishing attempts.
+    - Establish official communication channels and verification methods to help individuals distinguish legitimate communications from impersonation attempts.
+- Preconditions:
+    - Attackers need to identify individuals involved in or interested in Grafana developer advocacy. This information is likely publicly available through Grafana community forums, social media, and the content within this repository itself.
+    - Attackers need to create convincing impersonation materials, such as fake email addresses, social media profiles, or websites that resemble official Grafana communication channels.
+- Source code analysis: Source code analysis is not directly applicable to this vulnerability as it is a social engineering attack and not a software vulnerability in the repository's code. However, analyzing the content of the repository could reveal information that attackers might use to craft more convincing phishing attacks, such as names of advocates, project names, communication styles, and typical workflows.
+- Security test case:
+    1. **Information Gathering:** Identify publicly available information about Grafana Developer Advocates and related projects from the repository and online sources.
+    2. **Impersonation Setup:** Create a fake email address or social media profile impersonating a Grafana Developer Advocate. Mimic their known communication style and context using information gathered in step 1.
+    3. **Target Identification:** Identify potential targets who might interact with Grafana Developer Advocates, such as individuals who have contributed to Grafana content, asked questions in forums, or expressed interest in developer advocacy.
+    4. **Phishing Attempt:** Send a targeted phishing email or message to identified targets from the impersonated account. The message should be crafted to appear as a legitimate request related to Grafana content creation or developer advocacy, aiming to elicit sensitive information (e.g., credentials, personal data) or induce them to click on a malicious link.
+    5. **Success Measurement:**  Monitor for responses from targets, indicating whether they engaged with the phishing attempt, clicked on links, or provided information. A successful test would demonstrate that individuals are susceptible to impersonation-based phishing attacks in the context of Grafana developer advocacy.
