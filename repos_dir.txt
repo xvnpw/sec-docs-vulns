@@ -1,4 +1,3 @@
-python google/saxml
 python google/scaaml
 python google/seatera
 python google/secops-wrapper
