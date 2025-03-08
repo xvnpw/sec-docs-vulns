@@ -1,4 +1,3 @@
-python jitsi/jiwer
 python jitsi/skynet
 python kiwicom/aiohttp
 python kiwicom/contessa
