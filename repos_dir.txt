@@ -1,4 +1,3 @@
-python mapbox/osm-boundaries
 python mapbox/pyskel
 python mapbox/python-cpp-skel
 python mapbox/rio-alpha
