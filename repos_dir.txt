@@ -1,4 +1,3 @@
-python mapbox/python-cpp-skel
 python mapbox/rio-alpha
 python mapbox/rio-cloudmask
 python mapbox/rio-color
