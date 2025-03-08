@@ -1,4 +1,3 @@
-python grafana/celery-exporter
 python grafana/developer-advocacy
 python grafana/django-saml2-auth
 python grafana/docker-monitor-workshop
