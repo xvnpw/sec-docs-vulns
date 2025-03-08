@@ -1,4 +1,3 @@
-python mapbox/sdk-cicd-public
 python mapbox/supermercado
 python mapbox/tilesets-cli
 python mapbox/vector-tile-base
