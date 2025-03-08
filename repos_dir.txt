@@ -1,4 +1,3 @@
-python google/pyu2f
 python google/qkeras
 python google/rag-playground
 python google/rax
