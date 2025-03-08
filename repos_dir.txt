@@ -1,4 +1,3 @@
-python google/vulkan-errata
 python google/wci
 python google/weather-tools
 python google/werewolf_arena
