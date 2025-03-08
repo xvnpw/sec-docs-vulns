@@ -1,4 +1,3 @@
-python mapbox/mapboxgl-jupyter
 python mapbox/mapbox-navigation-native-ios
 python mapbox/mason
 python mapbox/mbutil
