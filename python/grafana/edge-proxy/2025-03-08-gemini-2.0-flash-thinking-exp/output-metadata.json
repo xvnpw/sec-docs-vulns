@@ -1,0 +1,14 @@
+{
+  "repo_url": "grafana/edge-proxy",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/grafana/edge-proxy --recursion-limit 100",
+  "start_datetime": "2025-03-08T12:41:05Z",
+  "end_datetime": "2025-03-08T12:43:22Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "86724",
+  "mode": "dir"
+}
