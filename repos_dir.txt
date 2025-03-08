@@ -1,4 +1,3 @@
-python microsoft/admin-torch
 python microsoft/adversarialgmm
 python microsoft/advnlg
 python microsoft/aed-wonder-woman
