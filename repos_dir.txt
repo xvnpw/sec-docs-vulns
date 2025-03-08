@@ -1,4 +1,3 @@
-python mapbox/geojson-quirks
 python mapbox/make-surface
 python mapbox/mapboxgl-jupyter
 python mapbox/mapbox-navigation-native-ios
