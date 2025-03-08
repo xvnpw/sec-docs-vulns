@@ -1,4 +1,3 @@
-python kiwicom/contessa
 python kiwicom/flask-ninja
 python kiwicom/gcp-api-enabler
 python kiwicom/gitlab-unfurly
