@@ -1,4 +1,3 @@
-python grafana/grafana-ansible-collection
 python grafana/grafana-known-issues
 python grafana/grafana-openai-monitoring
 python grafana/k6-django-saml2-auth
