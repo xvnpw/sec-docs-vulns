@@ -1,4 +1,3 @@
-python microsoft/0xdeca10b
 python microsoft/2023iotlevelup
 python microsoft/aaai21-copy-that
 python microsoft/a-clip
