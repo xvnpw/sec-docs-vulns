@@ -1,4 +1,3 @@
-python mapbox/mbutil
 python mapbox/mercantile
 python mapbox/nodata
 python mapbox/osm-boundaries
