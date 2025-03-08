@@ -1,4 +1,3 @@
-python kiwicom/terraform-kubernetes-elasticsearch
 python kiwicom/terraform-kubernetes-kibana
 python lightsparkdev/python-sdk
 python mapbox/cncc
