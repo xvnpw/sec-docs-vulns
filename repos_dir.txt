@@ -1,4 +1,3 @@
-python grafana/otel-profiling-python
 python grafana/pysigma-backend-loki
 python grafana/tap-mysql
 python grafana/target-bigquery
