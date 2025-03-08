@@ -1,4 +1,3 @@
-python google/shopping_insider
 python google/shopping-markup
 python google/shoptimizer
 python google/shuwa
