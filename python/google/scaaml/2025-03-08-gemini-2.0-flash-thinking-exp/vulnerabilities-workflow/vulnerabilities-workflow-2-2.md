@@ -1,0 +1,1 @@
+Okay, I am ready for the list of vulnerabilities. Please provide the list and I will process it according to your instructions. I will carefully evaluate each vulnerability against the inclusion and exclusion criteria you've specified and return the filtered list in markdown format. If no vulnerabilities meet the criteria, I will return an empty list.

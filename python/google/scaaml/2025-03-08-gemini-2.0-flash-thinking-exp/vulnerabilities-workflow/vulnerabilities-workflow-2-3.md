@@ -1,0 +1,38 @@
+- Vulnerability name: Arbitrary Code Execution via Malicious Example Scripts
+- Description:
+    - An attacker modifies an example script within the SCAAML repository.
+    - The attacker social engineers a user into downloading and running this modified, malicious example script.
+    - Upon execution by the user, the malicious script executes arbitrary Python code on the user's system.
+    - This code execution happens under the guise of legitimate SCAAML usage, potentially bypassing user suspicion.
+- Impact:
+    - Critical: Successful exploitation allows for complete control over the user's system.
+    - This can lead to severe consequences, including:
+        - Theft of sensitive data.
+        - Installation of malware.
+        - Further attacks targeting the user's system or network.
+- Vulnerability rank: Critical
+- Currently implemented mitigations:
+    - None: The project lacks any implemented technical mitigations to prevent the execution of malicious scripts. The project's disclaimer serves as a notice but not a technical mitigation.
+- Missing mitigations:
+    - Code Review and Security Audits: Implement mandatory code reviews for all contributions, especially example scripts, to detect and prevent malicious modifications. Regularly conduct security audits of the entire project codebase to proactively identify and address potential vulnerabilities.
+    - Input Validation: If example scripts accept configuration files or user-provided inputs, enforce rigorous input validation to prevent code injection attempts. Note: This may not be fully effective against all forms of malicious scripts.
+    - Sandboxing/Virtualization Guidance: Provide clear recommendations and documentation to users on how to run SCAAML and its example scripts within isolated environments like Docker containers or virtual machines. This limits the potential damage from malicious script execution.
+    - User Security Warnings: Prominently display security warnings in the README and project documentation. Emphasize the risks associated with downloading and executing example scripts from untrusted sources. Strongly advise users to carefully review the code of any script before running it.
+- Preconditions:
+    - The user must download and execute a modified, malicious example script.
+    - The user's system must have Python and all SCAAML dependencies correctly installed.
+- Source code analysis:
+    - `/code/README.md`: The README encourages users to utilize the provided examples and tutorials. It lacks any security advisories regarding the execution of scripts.
+    - `/code/scaaml_intro/README.md`, `/code/papers/2024/GPAM/README.md`: These files provide instructions for downloading and running example scripts and pre-trained models, again without security warnings.
+    - `/code/setup.py`, `/code/tools/run_pylint.sh`, `/code/tests/test_aes_forward.py`, `/code/scaaml_intro/train.py`, `/code/scaaml_intro/key_recovery_demo.ipynb`: These are examples of executable Python scripts and Jupyter notebooks within the repository. Modified versions of these could be used for malicious purposes.
+- Security test case:
+    - Setup:
+        - Attacker: Create a modified version of the `/code/scaaml_intro/train.py` script. This malicious script should include code to perform an action demonstrating arbitrary code execution, such as creating a reverse shell back to the attacker or exfiltrating user data (e.g., saving the contents of the user's home directory to a file).
+        - Distribution: The attacker hosts this modified script online or uses social engineering techniques to convince a victim user to download and use it, potentially by subtly replacing the legitimate script in a seemingly official repository clone.
+    - Execution:
+        - User: A victim user clones the legitimate SCAAML repository from the official source.
+        - User: Unknowingly replaces the legitimate `/code/scaaml_intro/train.py` with the attacker's malicious version.
+        - User: Following the legitimate SCAAML tutorial, navigates to the `/code/scaaml_intro/` directory and executes the training script using the command `python train.py -c config/stm32f415_tinyaes.json`.
+    - Verification:
+        - Observe the execution of the malicious code on the user's system.
+        - For example, verify a reverse shell connection back to the attacker's machine, or check for the presence of exfiltrated user data written to a file on the user's system, confirming successful arbitrary code execution.
