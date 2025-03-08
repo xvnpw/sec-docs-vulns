@@ -1,0 +1,14 @@
+{
+  "repo_url": "mapbox/make-surface",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/mapbox/make-surface --recursion-limit 100",
+  "start_datetime": "2025-03-08T14:50:54Z",
+  "end_datetime": "2025-03-08T14:53:23Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "71145",
+  "mode": "dir"
+}
