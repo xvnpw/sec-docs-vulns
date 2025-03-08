@@ -1,4 +1,3 @@
-python google/rag-playground
 python google/rax
 python google/report2bq
 python google/resultstoreui
