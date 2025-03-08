@@ -1,4 +1,3 @@
-python google/tf-shell
 python google/timesketch
 python google/tirg
 python google/trax
