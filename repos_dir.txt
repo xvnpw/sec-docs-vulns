@@ -1,4 +1,3 @@
-python google/secops-wrapper
 python google/sedpack
 python google/seqio
 python google/sequence-layers
