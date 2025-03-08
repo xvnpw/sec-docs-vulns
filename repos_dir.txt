@@ -1,4 +1,3 @@
-python mapbox/fio-area
 python mapbox/geojson-quirks
 python mapbox/make-surface
 python mapbox/mapboxgl-jupyter
