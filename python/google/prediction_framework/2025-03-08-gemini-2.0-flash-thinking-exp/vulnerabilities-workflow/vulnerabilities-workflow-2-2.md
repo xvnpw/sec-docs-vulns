@@ -1,0 +1,42 @@
+- Vulnerability Name: SQL Injection in Data Extraction Query
+- Description:
+    - An attacker modifies the `deploy/customization/queries/extract_all_transactions.sql` file before deployment.
+    - The attacker injects malicious SQL code into the query, possibly by using a parameter that they control or can influence.
+    - The `deploy.sh` script deploys the framework, including the modified SQL query.
+    - The BigQuery Data Transfer Service is created using the malicious SQL query.
+    - When the Data Transfer Service runs, it executes the attacker-controlled SQL query against the BigQuery data source.
+    - This can lead to unauthorized data access, modification, or other malicious actions within the BigQuery data source, depending on the attacker's injected SQL code and the permissions of the service account used by the Data Transfer Service.
+- Impact:
+    - Unauthorized access to sensitive data in the BigQuery data source.
+    - Data modification or deletion in the BigQuery data source.
+    - Potential escalation of privileges depending on the service account permissions and the nature of the injected SQL.
+- Vulnerability Rank: High
+- Currently Implemented Mitigations:
+    - None explicitly in the provided code to prevent user-modified SQL injection in `extract_all_transactions.sql`. The framework relies on the user to provide safe SQL.
+- Missing Mitigations:
+    - Input sanitization or parameterized queries within the `extract_all_transactions.sql` or during the query construction in `deploy/create_bq_elements.sh`.
+    - Clear documentation and warnings to users about the security risks of modifying SQL queries and the importance of input sanitization if they decide to introduce external parameters into their custom SQL.
+- Preconditions:
+    - The attacker needs to be able to modify the `deploy/customization/queries/extract_all_transactions.sql` file before the deployment process. This could be achieved if the attacker has access to the repository or can manipulate the deployment pipeline.
+    - The user needs to deploy the framework with the attacker's modified SQL query.
+- Source Code Analysis:
+    - File: `/code/deploy/create_bq_elements.sh`
+    - Step 1: `QUERY_PATH="customization/queries/extract_all_transactions.sql"` - Defines the path to the customizable SQL query file.
+    - Step 2: `QUERY=$(cat "$QUERY_PATH")` - Reads the content of the SQL query file into the `QUERY` variable.
+    - Step 3: `QUERY=$(echo "$QUERY" | sed ...)` - Performs a series of `sed` commands to replace placeholders in the query. These replacements are based on configuration variables.
+    - Step 4: `PARAMS='{"query":"'$QUERY'","destination_table_name_template" :"'$TARGET_TABLE_TEMPLATE'","write_disposition" : "WRITE_TRUNCATE"}'` - Constructs the parameters for the BigQuery Data Transfer Service, including the `QUERY`.
+    - Step 5: `CREATE_TRANSFER=$(bq mk --transfer_config ... --params="$PARAMS")` - Creates the BigQuery Data Transfer Service using the constructed parameters, including the potentially malicious SQL query.
+    - Explanation: The vulnerability exists because the framework directly uses the content of the `extract_all_transactions.sql` file, which is intended for user customization, without any built-in sanitization or validation. If a malicious user modifies this file, they can inject arbitrary SQL code that will be executed by the BigQuery Data Transfer Service.
+- Security Test Case:
+    - Step 1: **Pre-deployment Phase (Attacker Action):**
+        - Access the `/code/deploy/customization/queries/extract_all_transactions.sql` file.
+        - Modify the SQL query to inject malicious code. For example, append \`; DROP TABLE BQ_LTV_DATASET.predictions_YYYYMMDD; --\` to the end of a legitimate query. Replace `BQ_LTV_DATASET` with the actual dataset name from `config.yaml`.
+        - Save the modified `extract_all_transactions.sql` file.
+    - Step 2: **Deployment Phase (User Action):**
+        - Deploy the framework using the `deploy.sh` script. This will deploy the framework with the attacker's modified SQL query.
+    - Step 3: **Post-deployment & Trigger Phase (User/System Action):**
+        - Trigger the data extraction process (either by scheduler or backfilling). This will cause the BigQuery Data Transfer Service to run the malicious SQL query.
+    - Step 4: **Verification Phase (Attacker/User Action):**
+        - Check if the injected SQL code was executed. In this example, verify if the `predictions_YYYYMMDD` table (or another table targeted in the injected SQL) has been dropped from the BigQuery dataset.
+        - Monitor logs for any unexpected BigQuery errors or activities that indicate the injected SQL was executed.
+    - Expected result: If the table is dropped or other malicious actions are observed in BigQuery, it confirms the SQL injection vulnerability.
