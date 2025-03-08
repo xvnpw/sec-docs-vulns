@@ -1,4 +1,3 @@
-python google/sre_yield
 python google/struct2tensor
 python google/swift-jupyter
 python google/t5patches
