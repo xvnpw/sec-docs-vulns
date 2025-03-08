@@ -1,4 +1,3 @@
-python grafana/tap-mysql
 python grafana/target-bigquery
 python grafana/wal-e
 python grafana/webinar-opentelemetry-getting-started
