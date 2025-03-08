@@ -1,4 +1,3 @@
-python kiwicom/pg2avro
 python kiwicom/phoenix
 python kiwicom/request-session
 python kiwicom/requests-iap
