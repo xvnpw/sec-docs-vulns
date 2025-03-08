@@ -1,0 +1,48 @@
+- Vulnerability Name: Search Term Data Poisoning leading to Keyword Injection
+- Description:
+    - Step 1: An attacker identifies a victim who is using SAKA to automate keyword additions in their Search Ads 360 (SA360) account.
+    - Step 2: The attacker researches the default or configured thresholds used by SAKA to determine keyword eligibility (clicks, conversions, CTR, and search term tokens as described in the `README.md`).
+    - Step 3: The attacker crafts specific Google Ads search queries, potentially by running ads or simulating user searches, designed to include undesirable or irrelevant keywords (e.g., competitor names, spam keywords, or terms related to unrelated products/services).
+    - Step 4: The attacker ensures that these crafted search queries generate enough clicks and potentially conversions within the Google Ads account of the victim to meet or exceed SAKA's configured thresholds. This could involve repeated searches, strategically placed ads, or other methods to inflate metrics for the targeted search terms.
+    - Step 5: SAKA, running on its scheduled interval, fetches the Google Ads search terms report.
+    - Step 6: SAKA processes the report and identifies the attacker-crafted search terms as meeting the criteria for keyword addition due to the manipulated metrics.
+    - Step 7: SAKA automatically adds the undesirable or irrelevant keywords into the victim's SA360 account as new keywords.
+- Impact:
+    - The injection of undesirable keywords can lead to several negative consequences for the victim's advertising campaigns:
+        - **Wasted Ad Spend**: Ads may start showing for irrelevant searches, consuming budget without generating valuable traffic or conversions.
+        - **Reduced Campaign Performance**: The overall performance metrics of the ad campaigns can be diluted by irrelevant keywords, making it harder to optimize for desired outcomes.
+        - **Brand Damage**: In some cases, the injected keywords might be brand-damaging or misrepresent the advertiser's offerings.
+        - **Increased Management Overhead**: The victim will need to manually identify and remove the injected keywords, increasing their workload.
+- Vulnerability Rank: Medium
+- Currently Implemented Mitigations:
+    - None of the provided files indicate any specific mitigations against data poisoning attacks. The system relies on the data from Google Ads API without any apparent input validation or anomaly detection on the search terms themselves. The filtering logic based on clicks, conversions, and CTR is present but is designed for keyword performance, not security against malicious input.
+- Missing Mitigations:
+    - **Input Validation and Sanitization**: Implement validation and sanitization of search terms before they are considered for keyword addition. This could include:
+        - Blacklisting specific keywords or patterns.
+        - Limiting keyword length or complexity.
+        - Using NLP techniques to assess the relevance and intent of search terms.
+    - **Anomaly Detection**: Implement anomaly detection mechanisms to identify unusual patterns in search terms or metrics that might indicate malicious manipulation. This could involve:
+        - Monitoring sudden spikes in clicks or conversions for specific search terms.
+        - Detecting unusual search term patterns or sources.
+    - **Review and Approval Process**: Introduce a manual review or approval step before automatically adding keywords to SA360. This could be a simple notification system or a more formal workflow requiring user confirmation for keyword additions, especially for keywords triggered by unusual metrics.
+    - **Rate Limiting**: Implement rate limiting on the number of keywords that can be automatically added within a specific time frame to limit the potential damage from a successful injection attack.
+- Preconditions:
+    - The victim must be using SAKA with default or loosely configured thresholds for keyword addition.
+    - The attacker needs to have some understanding of SAKA's keyword filtering logic (which is described in the `README.md`).
+    - The attacker needs a way to influence the search terms that appear in the victim's Google Ads search terms report, either through running ads targeting the victim's keywords or by generating simulated searches.
+- Source Code Analysis:
+    - `cloud_functions/main.py`: This file contains the core logic of the Cloud Function.
+        - It fetches search terms from Google Ads API using `google_ads_client_lib.GoogleAdsClient.get_search_terms`.
+        - It uses `search_term_transformer_lib.SearchTermTransformer` to process and filter search terms based on thresholds defined in environment variables (CLICKS_THRESHOLD, CONVERSIONS_THRESHOLD, SEARCH_TERMS_TOKENS_THRESHOLD).
+        - The code does not include any explicit input validation or sanitization of the `search_term` values retrieved from the Google Ads API before processing them.
+        - The filtering logic in `search_term_transformer.py > _get_match_type` (logic described in `README.md`) is based on performance metrics (conversions, CTR, clicks) and search term length, not on content or potential maliciousness of the search terms themselves.
+    - `cloud_functions/lib/search_term_transformer.py` (not provided in files, but logic described in `README.md`): Based on the `README.md`, the filtering logic is based on numerical thresholds and token count. This logic is vulnerable to manipulation of search term metrics without considering the semantic content of the search terms.
+- Security Test Case:
+    - Step 1: Deploy SAKA in a test GCP project and configure it to connect to a test Google Ads and SA360 account. Set low values for `CLICKS_THRESHOLD` and `CONVERSIONS_THRESHOLD` environment variables to make it easier to trigger keyword additions.
+    - Step 2: As an attacker, choose a target SA360 account using SAKA and decide on an undesirable keyword to inject, for example, "malware removal tool free".
+    - Step 3: Using a separate Google Ads account (or by simulating user behavior), generate search queries for "malware removal tool free" that would be recorded in the target Google Ads account's search terms report. Increase the clicks on ads related to these search terms (if any) or simulate clicks to artificially inflate the click count for this search term in the reports. If possible, also simulate some conversions associated with these search terms to further increase the likelihood of keyword injection.
+    - Step 4: Wait for SAKA's scheduled run (or manually trigger the Cloud Function).
+    - Step 5: After SAKA runs, check the target SA360 account. Verify if the keyword "malware removal tool free" (or a close variant) has been added to any of the ad groups managed by SAKA.
+    - Step 6: Examine the Cloud Function logs to confirm that SAKA processed the search term "malware removal tool free" and decided to add it as a keyword based on the manipulated metrics exceeding the configured thresholds.
+
+This test case will demonstrate that an attacker can successfully inject undesirable keywords into a victim's SA360 account by manipulating Google Ads search term data to bypass SAKA's automated keyword addition logic.
