@@ -1,4 +1,3 @@
-python google/pybadges
 python google/pycnite
 python google/pyglove
 python google/pyink
