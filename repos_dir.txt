@@ -1,4 +1,3 @@
-python mapbox/rio-glui
 python mapbox/rio-hist
 python mapbox/rio-interpolate
 python mapbox/rio-l8qa
