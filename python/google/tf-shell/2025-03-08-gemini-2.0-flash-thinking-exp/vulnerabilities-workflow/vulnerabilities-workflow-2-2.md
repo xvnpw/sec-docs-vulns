@@ -1,0 +1,22 @@
+- Vulnerability Name: Information Leakage via Embedding Gradient Aggregation
+- Description: The `ShellEmbedding` layer's `backward` method aggregates gradients for embedding weights based on input indices using `tf_shell.segment_sum`. If the `grad_reduction` is set to "none", the gradients are not properly aggregated and might leak information about individual input samples through the weight gradients, especially in scenarios where the embedding layer is used with sensitive input data. Although the code mentions "galois" and "fast" reduction, "none" is also an option, which could be misused.
+- Impact: Potential leakage of sensitive information from input data through unaggregated embedding weight gradients, compromising privacy in privacy-preserving machine learning scenarios.
+- Vulnerability Rank: Medium
+- Currently Implemented Mitigations: The code offers "galois" and "fast" `grad_reduction` options which perform proper aggregation. The vulnerability only exists if "none" is explicitly chosen.
+- Missing Mitigations:
+    - Input validation or warning against using `grad_reduction="none"` in `ShellEmbedding` layer, especially in privacy-sensitive contexts.
+    - Documentation should clearly highlight the security implications of using `grad_reduction="none"`.
+    - Security test case to explicitly check for information leakage when `grad_reduction="none"` is used in `ShellEmbedding`.
+- Preconditions: A user must explicitly set `grad_reduction="none"` when using `ShellEmbedding` layer and train a model with sensitive input data.
+- Source Code Analysis:
+    - In `tf_shell_ml/embedding.py`, the `backward` method uses `tf_shell.segment_sum` to aggregate gradients.
+    - `tf_shell.segment_sum` has a `reduction` parameter which is set by `self.grad_reduction`.
+    - If `self.grad_reduction` is "none", the reduction is skipped in the C++ backend, and the output of `segment_sum_ct` will not be aggregated.
+    - The code comments indicate awareness of different aggregation methods ("rotate -> add -> mask" or "mask -> add -> reduce sum").
+    - The vulnerability is triggered when `grad_reduction="none"` is combined with the `ShellEmbedding` layer in a training scenario with sensitive data.
+- Security Test Case:
+    - Step 1: Create a `DpSgdSequential` model with a `ShellEmbedding` layer and set `grad_reduction="none"` in the embedding layer's constructor.
+    - Step 2: Prepare a synthetic dataset with a small vocabulary size and sensitive input data (e.g., one-hot encoded IDs).
+    - Step 3: Train the model for a few steps on the synthetic dataset.
+    - Step 4: Extract the weight gradients of the `ShellEmbedding` layer after training.
+    - Step 5: Analyze the extracted gradients. If the gradients are not aggregated (i.e., different gradients for each batch example for the same embedding index), it indicates information leakage. A test should be designed to detect if individual input samples can be distinguished from the weight gradients. For example, by checking if gradients corresponding to different input samples for the same index are significantly different.
