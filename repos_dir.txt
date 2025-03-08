@@ -1,4 +1,3 @@
-python google/sequence-layers
 python google/sg2im
 python google/sherlock
 python google/shopping_insider
