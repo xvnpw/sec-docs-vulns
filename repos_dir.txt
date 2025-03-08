@@ -1,4 +1,3 @@
-python google/xarray-tensorstore
 python google/xee
 python google/yapf
 python google/youtube-8m
