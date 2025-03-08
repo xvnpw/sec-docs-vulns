@@ -1,4 +1,3 @@
-python google/swift-jupyter
 python google/t5patches
 python google/taxonomy_wizard
 python google/telluride_decoding
