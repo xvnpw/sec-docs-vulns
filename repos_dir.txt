@@ -1,4 +1,3 @@
-python google/python-card-framework
 python google/python-fire
 python google/python-proto-converter
 python google/python-spanner-orm
