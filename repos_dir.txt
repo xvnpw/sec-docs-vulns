@@ -1,4 +1,3 @@
-python kiwicom/marge-bot
 python kiwicom/pg2avro
 python kiwicom/phoenix
 python kiwicom/request-session
