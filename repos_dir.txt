@@ -1,4 +1,3 @@
-python microsoft/adversarialgmm
 python microsoft/advnlg
 python microsoft/aed-wonder-woman
 python microsoft/aerial_wildlife_detection
