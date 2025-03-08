@@ -1,4 +1,3 @@
-python google/pyglove
 python google/pyink
 python google/py-lab-hal
 python google/python-card-framework
