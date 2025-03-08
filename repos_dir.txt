@@ -1,4 +1,3 @@
-python kiwicom/gitlab-unfurly
 python kiwicom/httpenv
 python kiwicom/hypothesis-jsonschema-unfit
 python kiwicom/kiwi-cache
