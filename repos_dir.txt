@@ -1,4 +1,3 @@
-python grafana/grafana-openai-monitoring
 python grafana/k6-django-saml2-auth
 python grafana/mcp-grafana
 python grafana/otel-profiling-python
