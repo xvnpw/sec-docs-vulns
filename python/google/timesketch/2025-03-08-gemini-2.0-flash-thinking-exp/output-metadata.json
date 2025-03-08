@@ -1,0 +1,14 @@
+{
+  "repo_url": "google/timesketch",
+  "analyzer_args": "-p python --vulnerabilities-iterations 4 --exclude '**/.github/**' --vulnerabilities-github-repo-url https://github.com/google/timesketch --recursion-limit 100",
+  "start_datetime": "2025-03-08T10:22:46Z",
+  "end_datetime": "2025-03-08T10:25:19Z",
+  "agent_provider": "google",
+  "agent_model": "gemini-2.0-flash-thinking-exp",
+  "agent_temperature": "0.7",
+  "agent_prompt_types": [
+    "vulnerabilities-workflow-2"
+  ],
+  "actual_token_usage": "1783611",
+  "mode": "dir"
+}
