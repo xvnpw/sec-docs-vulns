@@ -1,4 +1,3 @@
-python grafana/django-saml2-auth
 python grafana/docker-monitor-workshop
 python grafana/edge-proxy
 python grafana/github-traffic
