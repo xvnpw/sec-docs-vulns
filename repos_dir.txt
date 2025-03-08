@@ -1,4 +1,3 @@
-python google/vimdoc
 python google/vizier
 python google/vsf-time-series
 python google/vulkan-errata
