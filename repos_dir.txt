@@ -1,4 +1,3 @@
-python lightsparkdev/python-sdk
 python mapbox/cncc
 python mapbox/cogdumper
 python mapbox/fio-area
