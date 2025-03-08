@@ -1,4 +1,3 @@
-python google/ukip
 python google/unisim
 python google/uv-metrics
 python google/uvq
