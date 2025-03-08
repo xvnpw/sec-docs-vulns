@@ -1,4 +1,3 @@
-python kiwicom/hypothesis-jsonschema-unfit
 python kiwicom/kiwi-cache
 python kiwicom/kiwi-json
 python kiwicom/kiwi-structlog-config
