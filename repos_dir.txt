@@ -1,4 +1,3 @@
-python grafana/azure_eventhub_to_loki
 python grafana/celery-exporter
 python grafana/developer-advocacy
 python grafana/django-saml2-auth
