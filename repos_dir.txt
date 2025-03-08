@@ -1,4 +1,3 @@
-python matomo-org/matomo-log-analytics
 python matomo-org/piwik-python-api
 python microsoft/0xdeca10b
 python microsoft/2023iotlevelup
