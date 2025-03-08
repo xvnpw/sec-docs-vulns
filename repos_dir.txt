@@ -1,4 +1,3 @@
-python mapbox/supermercado
 python mapbox/tilesets-cli
 python mapbox/vector-tile-base
 python mapbox/watchbot-progress-py
