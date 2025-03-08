@@ -1,4 +1,3 @@
-python grafana/k6-django-saml2-auth
 python grafana/mcp-grafana
 python grafana/otel-profiling-python
 python grafana/pysigma-backend-loki
