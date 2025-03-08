@@ -1,4 +1,3 @@
-python microsoft/acv
 python microsoft/adaf
 python microsoft/addressing-signal-delay-in-deep-rl
 python microsoft/admin-torch
