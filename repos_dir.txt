@@ -1,4 +1,3 @@
-python mapbox/make-surface
 python mapbox/mapboxgl-jupyter
 python mapbox/mapbox-navigation-native-ios
 python mapbox/mason
