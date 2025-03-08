@@ -1,4 +1,3 @@
-python kiwicom/aiohttp
 python kiwicom/contessa
 python kiwicom/flask-ninja
 python kiwicom/gcp-api-enabler
