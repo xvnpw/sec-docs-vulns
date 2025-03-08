@@ -1,4 +1,3 @@
-python mapbox/rio-toa
 python mapbox/robosat
 python mapbox/sdk-cicd-public
 python mapbox/supermercado
