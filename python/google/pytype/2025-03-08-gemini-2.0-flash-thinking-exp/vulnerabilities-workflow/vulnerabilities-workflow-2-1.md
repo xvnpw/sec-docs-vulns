@@ -1,0 +1,1 @@
+Okay, please provide the list of vulnerabilities. I will analyze each vulnerability based on your instructions and return the updated list in markdown format, or an empty list if no vulnerabilities meet the criteria.
