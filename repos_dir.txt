@@ -1,4 +1,3 @@
-python google/report2bq
 python google/resultstoreui
 python google/rfmt
 python google/rubik
