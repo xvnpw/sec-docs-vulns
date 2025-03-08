@@ -1,4 +1,3 @@
-python kiwicom/request-session
 python kiwicom/requests-iap
 python kiwicom/structlog-sentry
 python kiwicom/terraform-kubernetes-elasticsearch
